@@ -16,24 +16,21 @@ let CollectionToList<'T> (c: Collection<'T>) = [ for i in 0 .. c.Count - 1 -> c[
 /// Converts as C# collection to an F# array.
 let CollectionToArray<'T> (c: Collection<'T>) = [| for i in 0 .. c.Count - 1 -> c[i] |]
 
+/// Converts some F# sequence to a C# list.
+let private XToClist fill =
+    let l = System.Collections.Generic.List<'a>()
+    fill l
+    l
+
 /// Converts an array to a C# list.
 let ArrayToCList (a: 'a []) =
-    let l = System.Collections.Generic.List<'a>()
-
-    for i in 0 .. a.Length - 1 do
-        l.Add(a[i])
-
-    l
+    XToClist(fun l -> a |> Array.iter (fun i -> l.Add(i)))
 
 /// Converts an array to a C# list.
 let ListToCList (a: List<'a>) =
-    let l = System.Collections.Generic.List<'a>()
+    XToClist(fun l -> a |> List.iter (fun i -> l.Add(i)))
 
-    for i in 0 .. a.Length - 1 do
-        l.Add(a[i])
-
-    l
-
+/// Converts an array to an ObservableCollection.
 let ArrayToObservableCollection (a: 'a []) =
     let l = ObservableCollection<'a>()
 
