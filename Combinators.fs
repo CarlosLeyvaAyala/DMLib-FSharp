@@ -21,3 +21,5 @@ let join2 aTuple =
         match snd aTuple with
         | Error e -> Error e
         | Ok v2 -> Ok(v1, v2)
+
+let isNot f x = not (f x)

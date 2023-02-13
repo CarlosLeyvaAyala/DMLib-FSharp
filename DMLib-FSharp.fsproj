@@ -1,9 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <RootNamespace>DMLib_FSharp</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageId>carlos.leyva.ayala.dmlib</PackageId>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>DM Lib fo F#</Title>
+    <Authors>Carlos Leyva Ayala</Authors>
+    <Description>F# library for general common operations and types.</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,8 +25,7 @@
     <Compile Include="Json.fs" />
     <Compile Include="MathL.fs" />
     <Compile Include="Misc.fs" />
+    <None Include="Scratchpad.fsx" />
   </ItemGroup>
-
-  <ItemGroup />
 
 </Project>
