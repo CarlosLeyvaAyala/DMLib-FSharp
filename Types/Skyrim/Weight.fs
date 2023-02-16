@@ -31,4 +31,4 @@ module WeightTopLevelOperations =
         if a |> (isNot validRange) then
             invalidArg (nameof a) $"A Skyrim weight must be between 0 and 100. {a} is not a valid weight."
 
-        Weight.Create(int a)
+        Weight.Create(a)
