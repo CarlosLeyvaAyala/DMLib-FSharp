@@ -1,16 +1,16 @@
 ﻿namespace DMLib.Types
 
-///<summary>A positive number that goes from <c>0</c> onwards.</summary>
+/// <summary>A positive number that goes from <c>0</c> onwards.</summary>
 [<Sealed>]
 type RecordId =
     interface System.IComparable
-    ///<summary>Creates a new <c>RecordId</c> adding <c>+1</c> to current value.</summary>
+    /// <summary>Creates a new <c>RecordId</c> adding <c>+1</c> to current value.</summary>
     member Increment: unit -> RecordId
-    ///<summary>Converts value to string.</summary>
+    /// <summary>Converts value to string.</summary>
     override ToString: unit -> string
-    ///<summary>Converts value to unsigned 64-bits int.</summary>
+    /// <summary>Converts value to unsigned 64-bits int.</summary>
     member ToUInt64: unit -> uint64
-    ///<summary>Creates a new <c>RecordId</c> from an unsigned 64-bits int.</summary>
+    /// <summary>Creates a new <c>RecordId</c> from an unsigned 64-bits int.</summary>
     static member Create: n: uint64 -> RecordId
     override Equals: a: obj -> bool
     override GetHashCode: unit -> int

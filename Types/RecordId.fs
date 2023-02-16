@@ -22,6 +22,7 @@ type RecordId =
 
 [<AutoOpen>]
 module RecordIdTopLevelOperations =
+    // Constructor
     let inline RecordId a =
         if int a < 0 then
             invalidArg (nameof a) $"A record id can not be negative. {a} is not a valid record id."
