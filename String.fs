@@ -3,8 +3,14 @@
 open System.Text.RegularExpressions
 open System
 
+///<summary>Indicates whether the specified string is <see langword="null" /> or an empty string ("").</summary>
+///<param name="value">The string to test.</param>
+///<returns><see langword="true" /> if the <paramref name="value" /> parameter is <see langword="null" /> or an empty string (""); otherwise, <see langword="false" />.</returns>
+let isNullOrEmpty = String.IsNullOrEmpty
+
 /// Folder function to create a string separated by new lines.
 let foldNl acc s = acc + s + "\n"
+/// Folder function to create a string separated by commas (readable to humans).
 let foldPrettyComma acc s = acc + s + ", "
 
 /// Folds a string in such a way that the last element does not end with the separator.
