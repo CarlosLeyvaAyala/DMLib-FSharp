@@ -19,6 +19,7 @@
     <Compile Include="Result.fs" />
     <Compile Include="String.fs" />
     <Compile Include="Array.fs" />
+    <Compile Include="Dictionary.fs" />
     <Compile Include="Collections.fs" />
     <Compile Include="Files.fs" />
     <Compile Include="IO.Path.fs" />
@@ -30,6 +31,7 @@
     <Compile Include="Types\HexNumber.fs" />
     <Compile Include="Types\Skyrim\Weight.fsi" />
     <Compile Include="Types\Skyrim\Weight.fs" />
+    <Compile Include="Types\Skyrim\UniqueId.fs" />
     <None Include="Types\Skyrim\test.fsx" />
     <None Include="Types\test.fsx" />
     <None Include="Scratchpad.fsx" />
