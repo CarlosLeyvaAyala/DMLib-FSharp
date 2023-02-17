@@ -1,12 +1,16 @@
 ﻿#load "..\Result.fs"
 #load "..\String.fs"
 #load "..\Json.fs"
+#load "NonEmptyString.fs"
 #load "RecordId.fs"
 #load "MemoryAddress.fs"
 
 open DMLib.Types
 open DMLib
+open System
 
+let ts = NonEmptyString " eueu  "
+ts.Value()
 //fsi.AddPrinter(fun (r: MemoryAddress) -> r.ToString())
 
 let ha = MemoryAddress "fe120"
