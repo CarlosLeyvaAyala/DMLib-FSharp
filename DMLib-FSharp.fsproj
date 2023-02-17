@@ -27,8 +27,8 @@
     <Compile Include="Misc.fs" />
     <Compile Include="Types\RecordId.fsi" />
     <Compile Include="Types\RecordId.fs" />
-    <Compile Include="Types\HexNumber.fsi" />
-    <Compile Include="Types\HexNumber.fs" />
+    <Compile Include="Types\MemoryAddress.fsi" />
+    <Compile Include="Types\MemoryAddress.fs" />
     <Compile Include="Types\Skyrim\Weight.fsi" />
     <Compile Include="Types\Skyrim\Weight.fs" />
     <Compile Include="Types\Skyrim\UniqueId.fs" />
