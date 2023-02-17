@@ -13,3 +13,7 @@ type UniqueId =
 [<AutoOpen>]
 module UniqueIdTopLevelOperations =
     val UniqueId: s: string -> UniqueId
+
+[<RequireQualifiedAccess>]
+module UniqueId =
+    val ofEspFormId: string -> string -> UniqueId

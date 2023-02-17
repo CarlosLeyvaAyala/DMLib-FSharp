@@ -46,7 +46,7 @@ type UniqueId =
 
 [<AutoOpen>]
 module UniqueIdTopLevelOperations =
-    let validate (s: string) =
+    let private validate (s: string) =
         if not (s.Contains(separator)) then
             let m = construct "File name.esx" "Hex number"
 
@@ -63,3 +63,7 @@ module UniqueIdTopLevelOperations =
         construct e f
 
     let UniqueId s = s |> validate |> UId
+
+[<RequireQualifiedAccess>]
+module UniqueId =
+    let ofEspFormId esp formId = construct esp formId |> UniqueId

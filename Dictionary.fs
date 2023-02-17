@@ -49,17 +49,17 @@ let tryFind key (dict: Dictionary<'T, 'U>) =
     | true -> Some v
     | false -> None
 
-let fromMap (map: Map<'T, 'U>) =
+let ofMap (map: Map<'T, 'U>) =
     let dict = Dictionary<'T, 'U>()
     map |> Map.iter (fun k v -> dict.Add(k, v))
     dict
 
-let fromArray (array: ('T * 'U) array) =
+let ofArray (array: ('T * 'U) array) =
     let dict = Dictionary<'T, 'U>()
     array |> Array.iter (fun (k, v) -> dict.Add(k, v))
     dict
 
-let fromList (array: ('T * 'U) list) =
+let ofList (array: ('T * 'U) list) =
     let dict = Dictionary<'T, 'U>()
     array |> List.iter (fun (k, v) -> dict.Add(k, v))
     dict
