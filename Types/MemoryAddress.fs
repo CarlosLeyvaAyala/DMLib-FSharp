@@ -25,6 +25,8 @@ type MemoryAddress =
     member h.ToUInt64() =
         let (Hex n) = h in UInt64.Parse(n, Globalization.NumberStyles.HexNumber)
 
+    member h.Value() = let (Hex x) = h in x
+
     override h.Equals(a) =
         match a with
         | :? MemoryAddress as x -> x.ToUInt64() = h.ToUInt64()

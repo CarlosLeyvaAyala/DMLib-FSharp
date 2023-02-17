@@ -6,7 +6,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>carlos.leyva.ayala.dmlib</PackageId>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>DM Lib fo F#</Title>
+    <Title>DM Lib for F#</Title>
     <Authors>Carlos Leyva Ayala</Authors>
     <Description>F# library for general common operations and types.</Description>
     <Version>1.2.0</Version>
@@ -31,6 +31,9 @@
     <Compile Include="Types\MemoryAddress.fs" />
     <Compile Include="Types\Skyrim\Weight.fsi" />
     <Compile Include="Types\Skyrim\Weight.fs" />
+    <Compile Include="Types\Skyrim\EspFileName.fsi" />
+    <Compile Include="Types\Skyrim\EspFileName.fs" />
+    <Compile Include="Types\Skyrim\UniqueId.fsi" />
     <Compile Include="Types\Skyrim\UniqueId.fs" />
     <None Include="Types\Skyrim\test.fsx" />
     <None Include="Types\test.fsx" />

@@ -12,6 +12,7 @@ type MemoryAddress =
     member ToInt64: unit -> int64
     member ToUInt: unit -> uint32
     member ToUInt64: unit -> uint64
+    member Value: unit -> string
     static member Create: x: string -> MemoryAddress
 
 [<AutoOpen>]

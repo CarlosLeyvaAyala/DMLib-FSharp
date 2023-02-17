@@ -3,18 +3,23 @@
 open System
 open System.IO
 open System.Text.RegularExpressions
+open DMLib.Combinators
 
-let getDir (path) = Path.GetDirectoryName(path: string)
+let getDir path = Path.GetDirectoryName(path: string)
 let getExt path = Path.GetExtension(path: string)
 let getExtNoDot fileName = (getExt fileName)[1..]
 let getFileName path = Path.GetFileName(path: string)
+
+let getFileNameWithoutExtension path =
+    Path.GetFileNameWithoutExtension(path: string)
+
 let getTempPath () = Path.GetTempPath()
 let changeExtension ext path = Path.ChangeExtension(path, ext)
 
 let getRelativeDir relPath dir =
     Path.GetFullPath(Path.Combine(dir, relPath))
 
-let removeDrive (path) =
+let removeDrive path =
     let m = Regex.Match(path, @".*:\\(.*)")
 
     if m.Success then
@@ -27,6 +32,8 @@ let trimEndingDirectorySeparator path =
 
 let combineArray a = Path.Combine(a)
 let combine2 p1 p2 = Path.Combine(p1, p2)
+/// Pipeable version of Path.Combine
+let combine2' = swap combine2
 let combine3 p1 p2 p3 = Path.Combine(p1, p2, p3)
 let combine4 p1 p2 p3 p4 = Path.Combine(p1, p2, p3, p4)
 
