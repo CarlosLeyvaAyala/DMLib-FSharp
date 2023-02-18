@@ -40,8 +40,6 @@ let addOrReplace key value (dict: Dictionary<'T, 'U>) =
     | false -> dict.Add(key, value)
     | true -> dict[key] <- value
 
-    dict
-
 let tryFind key (dict: Dictionary<'T, 'U>) =
     let sucess, v = dict.TryGetValue(key)
 
@@ -64,8 +62,6 @@ let ofList (array: ('T * 'U) list) =
     array |> List.iter (fun (k, v) -> dict.Add(k, v))
     dict
 
-let add key value (dict: Dictionary<'T, 'U>) =
-    dict.Add(key, value)
-    dict
+let add key value (dict: Dictionary<'T, 'U>) = dict.Add(key, value)
 
 let remove key (dict: Dictionary<'T, 'U>) = dict.Remove(key)

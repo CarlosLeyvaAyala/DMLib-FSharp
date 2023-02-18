@@ -17,7 +17,6 @@ type RecordId =
     member Next: (unit -> RecordId)
     member Value: uint64
 
-
 [<AutoOpen>]
 module RecordIdConstructor =
     ///<summary>Creates a new <c>RecordId</c> from an uint64.</summary>
