@@ -40,6 +40,8 @@ let addOrReplace key value (dict: Dictionary<'T, 'U>) =
     | false -> dict.Add(key, value)
     | true -> dict[key] <- value
 
+    ()
+
 let tryFind key (dict: Dictionary<'T, 'U>) =
     let sucess, v = dict.TryGetValue(key)
 
