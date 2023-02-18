@@ -23,3 +23,5 @@ let join2 aTuple =
         | Ok v2 -> Ok(v1, v2)
 
 let isNot f x = not (f x)
+let dont = isNot
+let Not = isNot

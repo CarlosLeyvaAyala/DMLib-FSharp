@@ -3,32 +3,61 @@
 open DMLib.String
 open DMLib.IO.Path
 
-type EspFileName =
-    | Plugin of string
-    static member Create(x) = Plugin x
-    member p.Value() = let (Plugin x) = p in x
+[<Sealed>]
+type EspFileName(filename: string) =
+    let (|IsInvalidExtension|_|) s =
+        let validExtensions = [ "esm"; "esp"; "esl" ] |> Set.ofList
+        let ext = s |> getExtNoDot |> toLower
 
-[<AutoOpen>]
-module EspFileNameTopLevelOperations =
-    let validExtensions = [ "esm"; "esp"; "esl" ] |> Set.ofList
+        match validExtensions.Contains ext with
+        | true -> None
+        | false -> Some()
 
-    let isValidExtension s =
-        let e = s |> getExtNoDot |> toLower
+    let (|FileNameIsEmpty|_|) f =
+        let f' =
+            f
+            |> getFileNameWithoutExtension
+            |> isNullOrWhiteSpace
 
-        match validExtensions.Contains e with
-        | true -> Ok None
-        | false -> Error e
+        match f' with
+        | false -> None
+        | true -> Some()
 
     let validate f =
-        if (isNullOrEmpty f)
-           || (f |> getFileNameWithoutExtension |> isNullOrEmpty) then
-            invalidArg (nameof f) "An Skyrim plugin name can not be empty."
+        match f with
+        | IsWhiteSpaceStr
+        | FileNameIsEmpty -> invalidArg (nameof f) "An Skyrim plugin name can not be empty."
 
-        match isValidExtension f with
-        | Error e ->
-            invalidArg (nameof f) $"File extension \"{e}\" is not valid for a Skyrim plugin. Must be esm, esp or esl."
+        | IsInvalidExtension ->
+            let m =
+                $"File extension \"{filename}\" is not valid for a Skyrim plugin. Must be esm, esp or esl."
+
+            invalidArg (nameof f) m
+
         | _ -> ()
 
-    let EspFileName fileName =
-        validate fileName
-        EspFileName.Create(fileName)
+        f
+
+    let v = validate filename
+    member s.Value = v
+
+    override s.ToString() = sprintf "SkyrimPlugin %s" v
+    override s.GetHashCode() = s.ToString() |> hash
+
+    override s.Equals(a) =
+        match a with
+        | :? EspFileName as x -> x.Value = s.Value
+        | _ -> false
+
+    interface System.IComparable with
+        member s.CompareTo a =
+            match a with
+            | :? EspFileName as x -> compare (s.Value.ToLower()) (x.Value.ToLower())
+            | _ -> invalidArg (nameof a) "Can not compare to this type."
+
+[<AutoOpen>]
+module EspFileNameConstructor =
+#if INTERACTIVE
+    fsi.AddPrinter(fun (r: EspFileName) -> r.ToString())
+#endif
+    let EspFileName fileName = EspFileName(fileName)

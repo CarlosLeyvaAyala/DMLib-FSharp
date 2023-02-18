@@ -8,6 +8,8 @@ open System
 ///<returns><see langword="true" /> if the <paramref name="value" /> parameter is <see langword="null" /> or an empty string (""); otherwise, <see langword="false" />.</returns>
 let isNullOrEmpty = String.IsNullOrEmpty
 
+let isNullOrWhiteSpace = String.IsNullOrWhiteSpace
+
 /// Folder function to create a string separated by new lines.
 let foldNl acc s = acc + s + "\n"
 /// Folder function to create a string separated by commas (readable to humans).
@@ -28,8 +30,10 @@ let toStrWithNl = Array.fold foldNl ""
 
 let toLower (s: string) = s.ToLower()
 let toUpper (s: string) = s.ToUpper()
+let split (separator: string) (s: string) = s.Split(separator)
 let startsWith (value: string) (s: string) = s.StartsWith(value)
 let endsWith (value: string) (s: string) = s.EndsWith(value)
+let contains (value: string) (s: string) = s.Contains(value)
 let trim (s: string) = s.Trim()
 let trimStart (s: string) = s.TrimStart()
 let trimEnd (s: string) = s.TrimEnd()
@@ -54,7 +58,13 @@ let (|EndsWith|_|) endStr input =
         None
 
 let (|IsEmptyStr|_|) input =
-    if String.IsNullOrEmpty(input) then
+    if isNullOrEmpty input then
+        Some()
+    else
+        None
+
+let (|IsWhiteSpaceStr|_|) input =
+    if isNullOrWhiteSpace input then
         Some()
     else
         None

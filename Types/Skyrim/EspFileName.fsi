@@ -2,9 +2,13 @@
 
 [<Sealed>]
 type EspFileName =
-    member Value: unit -> string
-    static member Create: x: string -> EspFileName
+    interface System.IComparable
+    new: filename: string -> EspFileName
+    override Equals: a: obj -> bool
+    override GetHashCode: unit -> int
+    override ToString: unit -> string
+    member Value: string
 
 [<AutoOpen>]
-module EspFileNameTopLevelOperations =
+module EspFileNameConstructor =
     val EspFileName: fileName: string -> EspFileName

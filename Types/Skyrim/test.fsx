@@ -17,38 +17,72 @@ open System.IO
 open DMLib.IO.Path
 open System.Text.RegularExpressions
 
+let rnd = Random()
+let randomInt maxValue _ = rnd.Next maxValue
+
 ///////////////////////////////////////////////////////////
-EDID "eoueo"
-EDID "oe uaou aoue"
+[ "Ingun"
+  "Dravynea"
+  "DBTortureVictim3"
+  "Knjakr"
+  "Sylgja"
+  "Nocturnal"
+  "Nocturnal"
+  "Nocturnal"
+  "Nocturnal"
+  "KharagGroShurkul"
+  "Voada"
+  "Fianna"
+  "CurweDead"
+  "Borri"
+  "Embry"
+  "Grisvar"
+  "PavoAttius"
+  "Olda"
+  "MG04Augur"
+  "dunAlftandYagGraGortwog"
+  "Kust"
+  "DLC2Storn"
+  "MQ101TorturerAssistant" ]
+|> List.map EDID
+|> List.distinct
+|> List.sort
+
+EDID ""
+EDID "   "
+EDID "|"
 
 ///////////////////////////////////////////////////////////
 [ "Skyrim.esm|0X00000000653"
-  "Skyrim.esm|F3"
+  "Skyrim.esm|0xF3"
+  "Skyrim.esm|0000F3"
   "Dawnguard.esm|fff34" ]
 |> List.map (fun s -> UniqueId s)
 |> List.sort
+|> List.distinct
 
 UniqueId "Skyrim.esm|0X00000000653"
 
 ///////////////////////////////////////////////////////////
-fsi.AddPrinter(fun (r: Weight) -> r.ToString())
+let weights = [ 1..20 ] |> List.map (randomInt 101)
 
-let a = Weight 10
-let b = Weight 100
-let c = Weight 10
-c.ToInt()
-max a b
-a = c
-c = b
-List.max [ a; b; c ]
+weights
+|> List.map Weight
+|> List.distinct
+|> List.sortDescending
+
 Weight -1
-Weight 0
 Weight 101
 
 ///////////////////////////////////////////////////////////
 let aa = EspFileName "TroublesOfHeroine.esl"
 let bb = EspFileName "aaaa.esp"
+let cc = EspFileName "aaaa.esp"
 max aa bb
-aa.Value()
+aa.Value
+bb.Value
+cc.Value
 aa
-EspFileName ""
+aa = bb
+bb = cc
+EspFileName "   .esm"

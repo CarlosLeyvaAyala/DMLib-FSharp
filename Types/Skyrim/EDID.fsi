@@ -2,8 +2,12 @@
 
 [<Sealed>]
 type EDID =
-    member Value: unit -> string
-    static member Create: edid: string -> EDID
+    interface System.IComparable
+    new: edid: string -> EDID
+    override Equals: a: obj -> bool
+    override GetHashCode: unit -> int
+    override ToString: unit -> string
+    member Value: string
 
 [<AutoOpen>]
 module EDIDConstructor =

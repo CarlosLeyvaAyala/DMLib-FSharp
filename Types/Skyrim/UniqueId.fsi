@@ -3,17 +3,14 @@
 [<Sealed>]
 type UniqueId =
     interface System.IComparable
+    new: uId: string -> UniqueId
+    new: esp: string * formId: string -> UniqueId
     override Equals: a: obj -> bool
     override GetHashCode: unit -> int
     member Split: unit -> string * string
     override ToString: unit -> string
-    member Value: unit -> string
-    static member Create: x: string -> UniqueId
+    member Value: string
 
 [<AutoOpen>]
-module UniqueIdTopLevelOperations =
+module UniqueIdConstructor =
     val UniqueId: s: string -> UniqueId
-
-[<RequireQualifiedAccess>]
-module UniqueId =
-    val ofEspFormId: string -> string -> UniqueId

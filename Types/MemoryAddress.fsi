@@ -5,19 +5,23 @@
 [<Sealed>]
 type MemoryAddress =
     interface System.IComparable
+    new: address: string -> MemoryAddress
+    new: address: byte -> MemoryAddress
+    new: address: uint -> MemoryAddress
+    new: address: uint64 -> MemoryAddress
     override Equals: a: obj -> bool
     override GetHashCode: unit -> int
     member ToByte: unit -> byte
     member ToInt: unit -> int
     member ToInt64: unit -> int64
+    override ToString: unit -> string
     member ToUInt: unit -> uint32
     member ToUInt64: unit -> uint64
-    member Value: unit -> string
-    static member Create: x: string -> MemoryAddress
+    member Value: string
 
 [<AutoOpen>]
-module MemoryAddressTopLevelOperations =
+module MemoryAddressConstructor =
     ///<summary> Creates a new <c>HexNumber</c> from a <c>string</c>, <c>int</c> or <c>int64</c>.
     ///Using a leading <c>0x</c> on <c>string</c> inputs is optional.</summary>
     ///<exception cref="T:System.ArgumentException">When the input is not a supported integer type or a valid string.</exception>
-    val MemoryAddress: s: obj -> MemoryAddress
+    val MemoryAddress: s: string -> MemoryAddress

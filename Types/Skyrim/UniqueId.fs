@@ -2,37 +2,53 @@
 
 open System
 open DMLib.Types
-open EspFileNameTopLevelOperations
+open EspFileNameConstructor
+open DMLib.String
+open DMLib.Combinators
 
-[<AutoOpen>]
-module private Helpers =
-    let separator = "|"
+[<Sealed>]
+type UniqueId(uId: string) =
+    static let separator = "|"
+    static let construct esp formId = sprintf "%s%s%s" esp separator formId
+
+    static let makeValidId (esp, formId) =
+        // These will create an exception if any of the values is invalid
+        let e = (EspFileName esp).Value
+        let f = (MemoryAddress formId).Value
+        construct e f
+
+    let getInvalidFmtMsg s =
+        let m = construct "File name.esx" "Hex number"
+        sprintf "An unique id must have the form \"%s\". \"%s\" is not a valid value." m s
 
     let separate (s: string) =
         let a = s.Split(separator)
         (a[0], a[1])
 
-    let construct esp formId = sprintf "%s%s%s" esp separator formId
+    let validate (s: string) =
+        if s |> dont (contains separator) then
+            invalidArg (nameof s) (getInvalidFmtMsg s)
 
-[<CustomEquality; CustomComparison>]
-type UniqueId =
-    | UId of string
-    static member Create(x) = UId x
-    member h.Value() = let (UId x) = h in x
-    override h.ToString() = h.Value()
-    override h.GetHashCode() = h.ToString() |> hash
-    member h.Split() = () |> h.ToString |> separate
+        separate s |> makeValidId
 
-    override h.Equals(a) =
+    let v = validate uId
+
+    member h.Value = v
+    override s.ToString() = v
+    override s.GetHashCode() = hash v
+    member s.Split() = separate v
+    new(esp: string, formId: string) = UniqueId(makeValidId (esp, formId))
+
+    override s.Equals(a) =
         match a with
-        | :? UniqueId as x -> x.ToString() = h.ToString()
+        | :? UniqueId as x -> x.Value = s.Value
         | _ -> false
 
     interface System.IComparable with
-        member h.CompareTo a =
+        member s.CompareTo a =
             match a with
             | :? UniqueId as x ->
-                let esp1, id1 = h.Split()
+                let esp1, id1 = s.Split()
                 let esp2, id2 = x.Split()
 
                 match compare esp1 esp2 with
@@ -45,25 +61,8 @@ type UniqueId =
             | _ -> invalidArg (nameof a) "Can not compare arguments of different types."
 
 [<AutoOpen>]
-module UniqueIdTopLevelOperations =
-    let private validate (s: string) =
-        if not (s.Contains(separator)) then
-            let m = construct "File name.esx" "Hex number"
-
-            let mm =
-                sprintf "An unique id must have the form \"%s\". \"%s\" is not a valid value." m s
-
-            invalidArg (nameof s) mm
-
-        let esp, formId = separate s
-
-        // These will create an exception if the value is invalid
-        let e = (EspFileName esp).Value()
-        let f = (MemoryAddress formId).Value()
-        construct e f
-
-    let UniqueId s = s |> validate |> UId
-
-[<RequireQualifiedAccess>]
-module UniqueId =
-    let ofEspFormId esp formId = construct esp formId |> UniqueId
+module UniqueIdConstructor =
+#if INTERACTIVE
+    fsi.AddPrinter(fun (r: UniqueId) -> r.ToString())
+#endif
+    let UniqueId s = UniqueId(s)
