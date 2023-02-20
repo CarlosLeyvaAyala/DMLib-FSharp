@@ -66,9 +66,7 @@ let (|FileExists|_|) input =
     else
         None
 
-
-/// Does a file end with an extension?
-/// Extension to check does not need to start with <c>'.'</c>.
+/// Does a file end with an extension? Extension to check does not need to start with <c>'.'</c>.
 let (|IsExtension|_|) (ext: string) input =
     let ext' =
         if ext.StartsWith('.') then

@@ -10,6 +10,8 @@ type Weight =
     member ToInt: unit -> int
     override ToString: unit -> string
     member Value: int
+    static member Max: int
+    static member Min: int
 
 [<AutoOpen>]
 module WeightConstructor =

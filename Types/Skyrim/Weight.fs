@@ -3,17 +3,24 @@
 open DMLib.MathL
 open DMLib.Combinators
 
+[<AutoOpen>]
+module private H =
+    let minW = 0
+    let maxW = 100
+
 [<Sealed>]
 type Weight(value: int) =
-    let inValidRange = isInRange 0 100
+    let inValidRange = isInRange minW maxW
 
     let validate a =
         if a |> (isNot inValidRange) then
-            invalidArg (nameof a) $"A Skyrim weight must be between 0 and 100. {a} is not a valid weight."
+            invalidArg (nameof a) $"A Skyrim weight must be between {minW} and {maxW}. {a} is not a valid weight."
 
         a
 
     let v = validate value
+    static member Min = minW
+    static member Max = maxW
     member w.Value = v
     member w.ToInt() = v
     override w.ToString() = sprintf "Weight %d" v
