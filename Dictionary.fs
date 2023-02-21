@@ -13,6 +13,14 @@ let map mapping (dict: Dictionary<'T, 'U>) =
 
     dict
 
+/// Returns an array with the filtered data.
+let filter (predicate: 'T -> 'U -> bool) (dict: Dictionary<'T, 'U>) =
+    [| for k in dict do
+           let k' = k.Key
+           let v = k.Value
+           if predicate k' v then (k', v) |]
+
+
 let toArray (dict: Dictionary<'T, 'U>) =
     [| for k in dict do
            (k.Key, k.Value) |]
