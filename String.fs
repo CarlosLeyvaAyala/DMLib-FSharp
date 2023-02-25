@@ -17,7 +17,7 @@ let foldPrettyComma acc s = acc + s + ", "
 
 /// Folds a string in such a way that the last element does not end with the separator.
 let smartFold separator acc s =
-    if String.IsNullOrEmpty(acc) then
+    if isNullOrEmpty acc then
         s
     else
         acc + separator + s

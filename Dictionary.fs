@@ -2,6 +2,8 @@
 module DMLib.Dictionary
 
 open System.Collections.Generic
+open System.Threading.Tasks
+open System
 
 let iter action (dict: Dictionary<'T, 'U>) =
     for k in dict do
@@ -24,6 +26,19 @@ let filter (predicate: 'T -> 'U -> bool) (dict: Dictionary<'T, 'U>) =
 let toArray (dict: Dictionary<'T, 'U>) =
     [| for k in dict do
            (k.Key, k.Value) |]
+
+let toArrayP (dict: Dictionary<'T, 'U>) =
+    let a: ('T * 'U) array = Array.zeroCreate dict.Count
+    let mutable n = 0
+
+    let add (i: KeyValuePair<'T, 'U>) =
+        a[n] <- (i.Key, i.Value)
+        n <- n + 1
+
+    let f = Action<KeyValuePair<'T, 'U>> add
+    Parallel.ForEach(dict, add) |> ignore
+    a
+
 
 let toList (dict: Dictionary<'T, 'U>) =
     [ for k in dict do
