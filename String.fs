@@ -36,11 +36,16 @@ let endsWith (value: string) (s: string) = s.EndsWith(value)
 let contains (value: string) (s: string) = s.Contains(value)
 let trim (s: string) = s.Trim()
 let trimStart (s: string) = s.TrimStart()
+let trimLeft = trimStart
 let trimEnd (s: string) = s.TrimEnd()
+let trimRight = trimEnd
 let removeLastChars n (s: string) = s[.. s.Length - (n + 1)]
 let enclose left right (s: string) = left + s + right
 let encloseSame surround = enclose surround surround
 let encloseQuotes = encloseSame "\""
+
+/// Case insensitive comparison.
+let compareICase (s1: string) s2 = System.String.Compare(s1, s2, true)
 
 let isUrl (str: string) =
     let r =

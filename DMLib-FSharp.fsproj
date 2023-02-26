@@ -10,7 +10,7 @@
     <Authors>Carlos Leyva Ayala</Authors>
     <Description>F# library for general common operations and types.</Description>
     <Version>1.2.10</Version>
-		<PackageVersion>1.2.10</PackageVersion>
+		<PackageVersion>1.2.11</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -27,6 +27,7 @@ let toArray (dict: Dictionary<'T, 'U>) =
     [| for k in dict do
            (k.Key, k.Value) |]
 
+[<Obsolete("It seems not to work when acually needed.", true)>]
 let toArrayP (dict: Dictionary<'T, 'U>) =
     let a: ('T * 'U) array = Array.zeroCreate dict.Count
     let mutable n = 0
