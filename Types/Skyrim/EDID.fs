@@ -6,13 +6,13 @@ open DMLib.String
 
 [<Sealed>]
 type EDID(edid: string) =
-    let illegalChars =
+    static let illegalChars =
         [ "white-space", @"\s"
           "~", "~"
           "|", @"\|"
           ",", "," ]
 
-    let (|HasIllegalChars|_|) s =
+    static let (|HasIllegalChars|_|) s =
         let wrong =
             illegalChars
             |> List.map (fun (display, r) -> Regex(r).Match(s).Success, display)
@@ -22,7 +22,7 @@ type EDID(edid: string) =
         | [] -> None
         | (_, displayedChar) :: _ -> Some(displayedChar)
 
-    let validate s =
+    static let validate s =
         match s with
         | IsEmptyStr ->
             "An empty string can not be an EDID."

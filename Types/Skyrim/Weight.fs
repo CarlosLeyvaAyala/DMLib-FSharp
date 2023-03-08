@@ -10,9 +10,9 @@ module private H =
 
 [<Sealed>]
 type Weight(value: int) =
-    let inValidRange = isInRange minW maxW
+    static let inValidRange = isInRange minW maxW
 
-    let validate a =
+    static let validate a =
         if a |> (isNot inValidRange) then
             invalidArg (nameof a) $"A Skyrim weight must be between {minW} and {maxW}. {a} is not a valid weight."
 

@@ -17,15 +17,15 @@ type UniqueId(uId: string) =
         let f = (MemoryAddress formId).Value
         construct e f
 
-    let getInvalidFmtMsg s =
+    static let getInvalidFmtMsg s =
         let m = construct "File name.esx" "Hex number"
         sprintf "An unique id must have the form \"%s\". \"%s\" is not a valid value." m s
 
-    let separate (s: string) =
+    static let separate (s: string) =
         let a = s.Split(separator)
         (a[0], a[1])
 
-    let validate (s: string) =
+    static let validate (s: string) =
         if s |> dont (contains separator) then
             invalidArg (nameof s) (getInvalidFmtMsg s)
 

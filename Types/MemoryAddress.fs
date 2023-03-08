@@ -7,13 +7,13 @@ open System
 //[<CustomEquality; CustomComparison>]
 [<Sealed>]
 type MemoryAddress(address: string) =
-    let validateStr s =
+    static let validateStr s =
         if isNullOrEmpty s then
             invalidArg (nameof s) $"A memory address can not be an empty string."
 
         s
 
-    let getValue s =
+    static let getValue s =
         let non0x = Regex("(0[xX])?(.*)").Match(s).Groups[2].Value
 
         if Regex("[^a-fA-F0-9]").Match(non0x).Success then
@@ -21,7 +21,7 @@ type MemoryAddress(address: string) =
 
         non0x
 
-    let removeTrailingZeros s =
+    static let removeTrailingZeros s =
         Regex("(0*)(.*)").Match(s).Groups[2].Value
 
     let v =

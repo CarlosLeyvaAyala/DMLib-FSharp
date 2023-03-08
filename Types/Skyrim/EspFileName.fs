@@ -5,7 +5,7 @@ open DMLib.IO.Path
 
 [<Sealed>]
 type EspFileName(filename: string) =
-    let (|IsInvalidExtension|_|) s =
+    static let (|IsInvalidExtension|_|) s =
         let validExtensions = [ "esm"; "esp"; "esl" ] |> Set.ofList
         let ext = s |> getExtNoDot |> toLower
 
@@ -13,7 +13,7 @@ type EspFileName(filename: string) =
         | true -> None
         | false -> Some()
 
-    let (|FileNameIsEmpty|_|) f =
+    static let (|FileNameIsEmpty|_|) f =
         let f' =
             f
             |> getFileNameWithoutExtension
@@ -23,14 +23,14 @@ type EspFileName(filename: string) =
         | false -> None
         | true -> Some()
 
-    let validate f =
+    static let validate f =
         match f with
         | IsWhiteSpaceStr
         | FileNameIsEmpty -> invalidArg (nameof f) "An Skyrim plugin name can not be empty."
 
         | IsInvalidExtension ->
             let m =
-                $"File extension \"{filename}\" is not valid for a Skyrim plugin. Must be esm, esp or esl."
+                $"File extension \"{f}\" is not valid for a Skyrim plugin. Must be esm, esp or esl."
 
             invalidArg (nameof f) m
 

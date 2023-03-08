@@ -15,6 +15,7 @@ let getFileNameWithoutExtension path =
 
 let getTempPath () = Path.GetTempPath()
 let changeExtension ext path = Path.ChangeExtension(path, ext)
+let changeExt = changeExtension
 
 let getRelativeDir relPath dir =
     Path.GetFullPath(Path.Combine(dir, relPath))
@@ -31,13 +32,17 @@ let trimEndingDirectorySeparator path =
     Path.TrimEndingDirectorySeparator(path: string)
 
 let combineArray a = Path.Combine(a)
-let combine2 p1 p2 = Path.Combine(p1, p2)
 /// Pipeable version of Path.Combine
+let combine2 p1 p2 = Path.Combine(p1, p2)
 let combine2' = swap combine2
 let combine3 p1 p2 p3 = Path.Combine(p1, p2, p3)
 let combine4 p1 p2 p3 p4 = Path.Combine(p1, p2, p3, p4)
 
 let changeDirectory (path: string) (newDir) = path |> getFileName |> combine2 newDir
+
+let forceDir (d: string) =
+    if not (Directory.Exists d) then
+        Directory.CreateDirectory d |> ignore
 
 
 /// <summary>Checks if a file name has any of the extensions on an extension list.</summary>

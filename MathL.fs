@@ -31,6 +31,9 @@ let forcePercent x = Math.Clamp(0.0, 1, x)
 [<CompiledName("PercentToFloat")>]
 let percentToFloat x = x / 100.0
 
+[<CompiledName("FloatToPercent")>]
+let floatToPercent x = x * 100.0
+
 [<CompiledName("LinCurve")>]
 let linCurve p1 p2 =
     let x1 = p1.X
