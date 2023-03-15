@@ -27,7 +27,6 @@ let smartPrettyComma = smartFold ", "
 
 /// Converts a string array to a string separated by newlines.
 let toStrWithNl = Array.fold foldNl ""
-
 let toLower (s: string) = s.ToLower()
 let toUpper (s: string) = s.ToUpper()
 let split (separator: string) (s: string) = s.Split(separator)
@@ -43,6 +42,12 @@ let removeLastChars n (s: string) = s[.. s.Length - (n + 1)]
 let enclose left right (s: string) = left + s + right
 let encloseSame surround = enclose surround surround
 let encloseQuotes = encloseSame "\""
+
+/// Converts a string separated by new lines to an array of trimmed strings
+let stringToArray s = s |> split "\n" |> Array.map trim
+
+/// Converts a string separated by new lines to a list of trimmed strings
+let stringToList s = s |> stringToArray |> Array.toList
 
 /// Case insensitive comparison.
 let compareICase (s1: string) s2 = System.String.Compare(s1, s2, true)

@@ -9,8 +9,8 @@
     <Title>DM Lib for F#</Title>
     <Authors>Carlos Leyva Ayala</Authors>
     <Description>F# library for general common operations and types.</Description>
-    <Version>1.2.12</Version>
-		<PackageVersion>1.2.12</PackageVersion>
+    <Version>1.2.13</Version>
+		<PackageVersion>1.2.13</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,6 +32,7 @@
     <Compile Include="Types\RecordId.fs" />
     <Compile Include="Types\MemoryAddress.fsi" />
     <Compile Include="Types\MemoryAddress.fs" />
+    <Compile Include="Types\CanvasPoint.fs" />
     <Compile Include="Types\Skyrim\EDID.fsi" />
     <Compile Include="Types\Skyrim\EDID.fs" />
     <Compile Include="Types\Skyrim\Weight.fsi" />
