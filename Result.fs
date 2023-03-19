@@ -41,7 +41,7 @@ module Result =
         | Error err1, Error err2 -> Error(List.concat [ err1; err2 ])
 
 
-    // combine a list of results, monadically
+    /// Combine a list of results, monadically
     let sequence aListOfResults =
         let (<*>) = apply // monadic
         let (<!>) = map
@@ -53,6 +53,17 @@ module Result =
         // to the initial value
         List.foldBack consR aListOfResults initialValue
 
+    /// Combine an array of results, monadically
+    let sequenceA aArrayOfResults =
+        let (<*>) = apply // monadic
+        let (<!>) = map
+        let cons head tail = tail |> Array.insertAt 0 head
+        let consR headR tailR = cons <!> headR <*> tailR
+        let initialValue = Ok [||] // empty list inside Result
+
+        // loop through the list, prepending each element
+        // to the initial value
+        Array.foldBack consR aArrayOfResults initialValue
 
 
     //-----------------------------------
