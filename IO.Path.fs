@@ -2,7 +2,7 @@
 
 open System
 open System.IO
-open System.Text.RegularExpressions
+open DMLib.String
 open DMLib.Combinators
 
 let getDir path = Path.GetDirectoryName(path: string)
@@ -21,12 +21,9 @@ let getRelativeDir relPath dir =
     Path.GetFullPath(Path.Combine(dir, relPath))
 
 let removeDrive path =
-    let m = Regex.Match(path, @".*:\\(.*)")
-
-    if m.Success then
-        m.Groups[1].Value
-    else
-        path
+    match path with
+    | Regex @".*:\\(.*)" [ np ] -> np
+    | p -> p
 
 let trimEndingDirectorySeparator path =
     Path.TrimEndingDirectorySeparator(path: string)
@@ -38,8 +35,28 @@ let combine2' = swap combine2
 let combine3 p1 p2 p3 = Path.Combine(p1, p2, p3)
 let combine4 p1 p2 p3 p4 = Path.Combine(p1, p2, p3, p4)
 
+/// Changes the directory of a file name while maintaining the file name.
 let changeDirectory (path: string) (newDir) = path |> getFileName |> combine2 newDir
 
+/// Changes the name of a file while maintaining the directory.
+let rename newName (oldName: string) =
+    oldName
+    |> Path.GetDirectoryName
+    |> combine2' newName
+
+/// Changes the name of a file while maintaining the directory.
+let rename' = swap rename
+
+/// Changes the name of a file while maintaining the directory. The mapping function accepts the orignal file name.
+let renameMap mapping (oldName: string) =
+    Path.GetFileName oldName
+    |> mapping
+    |> combine2 (Path.GetDirectoryName oldName)
+
+/// Changes the name of a file while maintaining the directory. The mapping function accepts the orignal file name.
+let renameMap' = swap renameMap
+
+/// Forces a directory into existance.
 let forceDir (d: string) =
     if not (Directory.Exists d) then
         Directory.CreateDirectory d |> ignore
