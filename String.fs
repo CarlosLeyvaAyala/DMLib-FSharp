@@ -82,6 +82,29 @@ let (|IsWhiteSpaceStr|_|) input =
 let regexReplace pattern (replacement: string) input =
     Regex(pattern).Replace(input, replacement)
 
+/// Checks if a string is contained in other. Case sensitive.
+let (|IsContainedIn|_|) (container: string) (str: string) =
+    if container.Contains str then
+        Some()
+    else
+        None
+
+/// Checks if a string is contained in other. Case insensitive.
+let (|IsContainedInIC|_|) (container: string) (str: string) =
+    if container.Contains(str, StringComparison.CurrentCultureIgnoreCase) then
+        Some()
+    else
+        None
+
+/// Checks if some string conforms to a Regex pattern.
+let (|Regex|_|) pattern input =
+    let m = System.Text.RegularExpressions.Regex.Match(input, pattern)
+
+    if m.Success then
+        Some(List.tail [ for g in m.Groups -> g.Value ])
+    else
+        None
+
 let separateCapitals s =
     s
     |> regexReplace @"((?<=[a-z])[A-Z]|[A-Z](?=[a-z]))" " $1"
