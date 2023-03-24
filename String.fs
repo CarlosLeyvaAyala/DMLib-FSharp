@@ -96,6 +96,48 @@ let (|IsContainedInIC|_|) (container: string) (str: string) =
     else
         None
 
+/// Checks if a string is not contained in other. Case sensitive.
+let (|IsNotContainedIn|_|) (container: string) (str: string) =
+    if container.Contains str then
+        None
+    else
+        Some()
+
+/// Checks if a string is not contained in other. Case insensitive.
+let (|IsNotContainedInIC|_|) (container: string) (str: string) =
+    if container.Contains(str, StringComparison.CurrentCultureIgnoreCase) then
+        None
+    else
+        Some()
+
+/// Checks if a string contains other. Case sensitive.
+let (|Contains|_|) (substr: string) (str: string) =
+    if str.Contains(substr) then
+        Some()
+    else
+        None
+
+/// Checks if a string contains other. Case insensitive.
+let (|ContainsIC|_|) (substr: string) (str: string) =
+    if str.Contains(substr, StringComparison.InvariantCultureIgnoreCase) then
+        Some()
+    else
+        None
+
+/// Checks if a string does not contain other. Case sensitive.
+let (|NotContains|_|) (substr: string) (str: string) =
+    if str.Contains(substr) then
+        None
+    else
+        Some()
+
+/// Checks if a string does not contain other. Case insensitive.
+let (|NotContainsIC|_|) (substr: string) (str: string) =
+    if str.Contains(substr, StringComparison.InvariantCultureIgnoreCase) then
+        None
+    else
+        Some()
+
 /// Checks if some string conforms to a Regex pattern.
 let (|Regex|_|) pattern input =
     let m = System.Text.RegularExpressions.Regex.Match(input, pattern)
