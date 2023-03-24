@@ -1,20 +1,40 @@
-﻿module DMLib.Array
+﻿namespace DMLib
 
-let (|EmptyArray|OneElemArray|ManyElemArray|) a =
-    if Array.length a = 0 then
-        EmptyArray
-    elif Array.length a = 1 then
-        OneElemArray(a)
-    else
-        let h = a[0]
-        let t = a[1..]
-        ManyElemArray(h, t)
+open System
 
-let getDuplicates l =
-    l
-    |> Array.groupBy id
-    |> Array.choose (fun (key, set) ->
-        if set.Length > 1 then
-            Some key
+[<AutoOpen>]
+module ArrayMisc =
+    let (|ArrayLengthIs|_|) len a =
+        if Array.length a = len then
+            Some()
         else
-            None)
+            None
+
+    let (|EmptyArray|OneElemArray|ManyElemArray|) a =
+        match a with
+        | ArrayLengthIs 0 -> EmptyArray
+        | ArrayLengthIs 1 -> OneElemArray(a)
+        | _ ->
+            let h = a[0]
+            let t = a[1..]
+            ManyElemArray(h, t)
+
+[<RequireQualifiedAccess>]
+module Array =
+    let duplicates a =
+        a
+        |> Array.groupBy id
+        |> Array.choose (fun (key, set) ->
+            if set.Length > 1 then
+                Some key
+            else
+                None)
+
+    [<Obsolete "Use duplicates instead">]
+    let getDuplicates = duplicates
+
+    [<RequireQualifiedAccess>]
+    module Parallel =
+        let filter predicate array =
+            array
+            |> Array.Parallel.choose (fun x -> if predicate x then Some x else None)

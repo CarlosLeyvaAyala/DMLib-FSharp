@@ -11,6 +11,7 @@ module Link =
             p.UseShellExecute <- true
             Process.Start(p) |> ignore
 
+[<AutoOpen>]
 module Patterns =
     /// Checks if some value is the same as other.
     let (|Equals|_|) x y = if x = y then Some() else None
