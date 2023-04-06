@@ -32,7 +32,11 @@ let toUpper (s: string) = s.ToUpper()
 let split (separator: string) (s: string) = s.Split(separator)
 let startsWith (value: string) (s: string) = s.StartsWith(value)
 let endsWith (value: string) (s: string) = s.EndsWith(value)
-let contains (value: string) (s: string) = s.Contains(value)
+let inline contains (value: string) (s: string) = s.Contains(value)
+
+let inline containsIC (value: string) (s: string) =
+    s.Contains(value, StringComparison.CurrentCultureIgnoreCase)
+
 let trim (s: string) = s.Trim()
 let trimStart (s: string) = s.TrimStart()
 let trimLeft = trimStart

@@ -21,6 +21,11 @@ module ArrayMisc =
 
 [<RequireQualifiedAccess>]
 module Array =
+    let (|ArrayLengthIs|_|) = ArrayMisc.(|ArrayLengthIs|_|)
+
+    let (|EmptyArray|OneElemArray|ManyElemArray|) =
+        ArrayMisc.(|EmptyArray|OneElemArray|ManyElemArray|)
+
     let duplicates a =
         a
         |> Array.groupBy id
