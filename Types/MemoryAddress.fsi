@@ -7,7 +7,8 @@ type MemoryAddress =
     interface System.IComparable
     new: address: string -> MemoryAddress
     new: address: byte -> MemoryAddress
-    new: address: uint -> MemoryAddress
+    new: address: uint16 -> MemoryAddress
+    new: address: uint32 -> MemoryAddress
     new: address: uint64 -> MemoryAddress
     override Equals: a: obj -> bool
     override GetHashCode: unit -> int

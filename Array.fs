@@ -43,3 +43,12 @@ module Array =
         let filter predicate array =
             array
             |> Array.Parallel.choose (fun x -> if predicate x then Some x else None)
+
+        let duplicates a =
+            a
+            |> Array.groupBy id
+            |> Array.Parallel.choose (fun (key, set) ->
+                if set.Length > 1 then
+                    Some key
+                else
+                    None)

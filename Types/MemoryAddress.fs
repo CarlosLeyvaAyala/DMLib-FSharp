@@ -4,7 +4,6 @@ open System.Text.RegularExpressions
 open DMLib.String
 open System
 
-//[<CustomEquality; CustomComparison>]
 [<Sealed>]
 type MemoryAddress(address: string) =
     static let validateStr s =
@@ -32,7 +31,7 @@ type MemoryAddress(address: string) =
         |> toLower
 
     override h.GetHashCode() = h.ToString() |> hash
-    override h.ToString() = sprintf "MemoryAddress %s" v
+    override _.ToString() = sprintf "MemoryAddress %s" v
 
     member h.ToInt() =
         Int32.Parse(v, Globalization.NumberStyles.HexNumber)
@@ -64,7 +63,8 @@ type MemoryAddress(address: string) =
             | _ -> invalidArg (nameof a) "Can not compare to this type."
 
     new(address: byte) = MemoryAddress(address.ToString("X"))
-    new(address: uint) = MemoryAddress(address.ToString("X"))
+    new(address: uint16) = MemoryAddress(address.ToString("X"))
+    new(address: uint32) = MemoryAddress(address.ToString("X"))
     new(address: uint64) = MemoryAddress(address.ToString("X"))
 
 [<AutoOpen>]

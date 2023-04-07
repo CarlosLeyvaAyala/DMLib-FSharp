@@ -34,6 +34,6 @@ type NonEmptyString(s: string) =
 [<AutoOpen>]
 module NonEmptyStringConstructor =
 #if INTERACTIVE
-fsi.AddPrinter(fun (r: NonEmptyString) -> r.ToString())
+    fsi.AddPrinter(fun (r: NonEmptyString) -> r.ToString())
 #endif
     let inline NonEmptyString (s: string) = NonEmptyString(s)

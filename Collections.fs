@@ -2,6 +2,7 @@
 module DMLib.Collections
 
 open System.Collections.ObjectModel
+open System
 
 /// <summary>Checks if some index is within the valid range of a list count.</summary>
 /// <param name="itemCount">List item count.</param>
@@ -23,18 +24,39 @@ let private XToClist fill =
     l
 
 /// Converts an array to a C# list.
+[<Obsolete "Use toCList">]
 let ArrayToCList (a: 'a []) =
     XToClist(fun l -> a |> Array.iter (fun i -> l.Add(i)))
 
 /// Converts an array to a C# list.
+[<Obsolete "Use toCList">]
 let ListToCList (a: List<'a>) =
     XToClist(fun l -> a |> List.iter (fun i -> l.Add(i)))
 
 /// Converts an array to an ObservableCollection.
+[<Obsolete "Use toObservableCollection">]
 let ArrayToObservableCollection (a: 'a []) =
     let l = ObservableCollection<'a>()
 
     for i in 0 .. a.Length - 1 do
         l.Add(a[i])
+
+    l
+
+/// Converts some F# sequence to a C# list.
+let toCList<'a> (s: seq<'a>) =
+    let l = System.Collections.Generic.List<'a>()
+
+    for v in s do
+        l.Add(v)
+
+    l
+
+/// Converts some F# sequence to an ObservableCollection.
+let toObservableCollection<'a> (s: seq<'a>) =
+    let l = ObservableCollection<'a>()
+
+    for v in s do
+        l.Add(v)
 
     l

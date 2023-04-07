@@ -33,11 +33,21 @@ type UniqueId(uId: string) =
 
     let v = validate uId
 
-    member h.Value = v
-    override s.ToString() = v
-    override s.GetHashCode() = hash v
-    member s.Split() = separate v
+    member _.Value = v
+    override _.ToString() = v
+    override _.GetHashCode() = hash v
+    member _.Split() = separate v
     new(esp: string, formId: string) = UniqueId(makeValidId (esp, formId))
+    new(esp: string, formId: byte) = UniqueId(esp, formId.ToString("x"))
+    new(esp: string, formId: int16) = UniqueId(esp, formId.ToString("x"))
+    new(esp: string, formId: int32) = UniqueId(esp, formId.ToString("x"))
+    new(esp: string, formId: int64) = UniqueId(esp, formId.ToString("x"))
+    new(esp: string, formId: sbyte) = UniqueId(esp, formId.ToString("x"))
+    new(esp: string, formId: uint16) = UniqueId(esp, formId.ToString("x"))
+    new(esp: string, formId: uint32) = UniqueId(esp, formId.ToString("x"))
+    new(esp: string, formId: uint64) = UniqueId(esp, formId.ToString("x"))
+    new(esp: string, formId: nativeint) = UniqueId(esp, formId.ToString("x"))
+    new(esp: string, formId: unativeint) = UniqueId(esp, formId.ToString("x"))
 
     override s.Equals(a) =
         match a with
