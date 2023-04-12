@@ -1,4 +1,5 @@
-﻿module DMLib.List
+﻿[<RequireQualifiedAccess>]
+module DMLib.List
 
 open System
 

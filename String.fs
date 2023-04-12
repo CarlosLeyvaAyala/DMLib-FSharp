@@ -37,6 +37,7 @@ let inline contains (value: string) (s: string) = s.Contains(value)
 let inline containsIC (value: string) (s: string) =
     s.Contains(value, StringComparison.CurrentCultureIgnoreCase)
 
+let replace (oldValue: string) newValue (s: string) = s.Replace(oldValue, newValue)
 let trim (s: string) = s.Trim()
 let trimStart (s: string) = s.TrimStart()
 let trimLeft = trimStart
