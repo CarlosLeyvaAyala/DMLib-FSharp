@@ -18,6 +18,8 @@ type UniqueId =
     override Equals: a: obj -> bool
     override GetHashCode: unit -> int
     member Split: unit -> string * string
+    static member Split: string -> string * string
+    static member Separator: string
     override ToString: unit -> string
     member Value: string
 
