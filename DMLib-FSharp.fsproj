@@ -9,8 +9,8 @@
     <Title>DM Lib for F#</Title>
     <Authors>Carlos Leyva Ayala</Authors>
     <Description>F# library for general common operations and types.</Description>
-    <Version>1.2.28</Version>
-		<PackageVersion>1.2.28</PackageVersion>
+    <Version>1.2.29</Version>
+		<PackageVersion>1.2.29</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +20,7 @@
     <Compile Include="String.fs" />
     <Compile Include="Array.fs" />
     <Compile Include="List.fs" />
+    <Compile Include="Map.fs" />
     <Compile Include="Dictionary.fs" />
     <Compile Include="Collections.fs" />
     <Compile Include="Files.fs" />
