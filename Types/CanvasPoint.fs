@@ -28,6 +28,9 @@ type CanvasPoint(x: float, y: float) =
         | :? CanvasPoint as x -> x.X = t.X && x.Y = t.Y
         | _ -> false
 
+[<AutoOpen>]
+module CanvasPointConstructor =
 #if INTERACTIVE
-fsi.AddPrinter(fun (r: CanvasPoint) -> r.ToString())
+    fsi.AddPrinter(fun (r: CanvasPoint) -> r.ToString())
 #endif
+    let private dummy = 0

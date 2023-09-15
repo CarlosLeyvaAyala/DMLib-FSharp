@@ -9,8 +9,8 @@
     <Title>DM Lib for F#</Title>
     <Authors>Carlos Leyva Ayala</Authors>
     <Description>F# library for general common operations and types.</Description>
-    <Version>1.2.29</Version>
-		<PackageVersion>1.2.29</PackageVersion>
+    <Version>1.2.29.1</Version>
+		<PackageVersion>1.2.29.1</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +24,8 @@
     <Compile Include="Dictionary.fs" />
     <Compile Include="Collections.fs" />
     <Compile Include="Files.fs" />
-    <Compile Include="IO.Path.fs" />
+    <Compile Include="IO\IO.Path.fs" />
+    <Compile Include="IO\File.fs" />
     <Compile Include="Json.fs" />
     <Compile Include="Misc.fs" />
     <Compile Include="Types\NonEmptyString.fsi" />
@@ -45,6 +46,7 @@
     <None Include="Types\Skyrim\test.fsx" />
     <None Include="Types\test.fsx" />
     <None Include="Scratchpad.fsx" />
+    <None Include="Relative paths.fsx" />
   </ItemGroup>
 
 </Project>

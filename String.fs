@@ -59,7 +59,7 @@ let compareICase (s1: string) s2 = System.String.Compare(s1, s2, true)
 
 let isUrl (str: string) =
     let r =
-        @"^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_]*)?$"
+        @"^((ht|f)tp(s?)\:\/\/)?[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?=\,\'\/\\\+&%\$#_]*)?"
 
     Regex.IsMatch(str, r)
 
