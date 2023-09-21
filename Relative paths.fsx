@@ -14,7 +14,7 @@ open DMLib.String
 #load "String.fs"
 
 let target =
-    @"C:\Users\Osrail\Documents\GitHub\BodyslideBlender\Data\scratchpad.fsx"
+    @"C:\Users\Osrail\Documents\GitHub\Armor-Keyword-Manager\GUI\scripts\Command binding generator.fsx"
 
 /////////////////////////////////////////////////////////////////////
 // Don't modify anything below
