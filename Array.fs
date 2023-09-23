@@ -13,7 +13,7 @@ module ArrayMisc =
     let (|EmptyArray|OneElemArray|ManyElemArray|) a =
         match a with
         | ArrayLengthIs 0 -> EmptyArray
-        | ArrayLengthIs 1 -> OneElemArray(a)
+        | ArrayLengthIs 1 -> OneElemArray(a[0])
         | _ ->
             let h = a[0]
             let t = a[1..]

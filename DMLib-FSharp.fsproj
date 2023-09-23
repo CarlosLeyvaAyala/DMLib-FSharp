@@ -9,8 +9,8 @@
     <Title>DM Lib for F#</Title>
     <Authors>Carlos Leyva Ayala</Authors>
     <Description>F# library for general common operations and types.</Description>
-    <Version>1.2.30</Version>
-    <PackageVersion>1.2.30</PackageVersion>
+    <Version>1.2.31</Version>
+    <PackageVersion>1.2.31</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
