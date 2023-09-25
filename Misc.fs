@@ -60,3 +60,6 @@ type WPFBindable() =
 
     member t.OnPropertyChanged(property: string) =
         t.OnPropertyChanged(PropertyChangedEventArgs(property))
+
+    /// Sends a message telling all properties were updated.
+    member t.OnPropertyChanged() = t.OnPropertyChanged("")
