@@ -34,8 +34,13 @@ let startsWith (value: string) (s: string) = s.StartsWith(value)
 let endsWith (value: string) (s: string) = s.EndsWith(value)
 let inline contains (value: string) (s: string) = s.Contains(value)
 
+/// Checks is a string s contains some value
 let inline containsIC (value: string) (s: string) =
     s.Contains(value, StringComparison.CurrentCultureIgnoreCase)
+
+/// Checks if a string is equals to other. Case insensitive.
+let inline equalsIC (s2: string) (s1: string) =
+    s1.Equals(s2, StringComparison.OrdinalIgnoreCase)
 
 let replace (oldValue: string) newValue (s: string) = s.Replace(oldValue, newValue)
 let trim (s: string) = s.Trim()
