@@ -1,7 +1,6 @@
-﻿[<RequireQualifiedAccess>]
-module DMLib.Map
+﻿module DMLib.Map
 
-///<summary>Converts a map to another map given a function <c>f</c></summary>
+///<summary>Converts a map to another map given a function <c>f</c>.</summary>
 ///<param name="f">The change function.</param>
 ///<param name="map">The input map.</param>
 ///<returns>The resulting map.</returns>
@@ -18,3 +17,15 @@ let toMap f map =
             let (k', v') = f (k, v)
             acc |> Map.add k' v')
         Map.empty
+
+let (|ContainsKey|_|) key map =
+    if map |> Map.containsKey key then
+        Some()
+    else
+        None
+
+let (|NotContainsKey|_|) key map =
+    if map |> Map.containsKey key then
+        None
+    else
+        Some()
