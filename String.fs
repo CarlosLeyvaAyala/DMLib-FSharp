@@ -83,6 +83,12 @@ let (|IsEmptyStr|_|) input =
     else
         None
 
+let (|IsNotEmptyStr|_|) input =
+    if isNullOrEmpty input then
+        None
+    else
+        Some()
+
 let (|IsWhiteSpaceStr|_|) input =
     if isNullOrWhiteSpace input then
         Some()

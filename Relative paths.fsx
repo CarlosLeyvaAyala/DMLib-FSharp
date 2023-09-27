@@ -7,18 +7,35 @@
 
 open System.IO
 open System
-open DMLib.String
 
 #r "nuget: TextCopy"
 #load "Result.fs"
 #load "String.fs"
 
 let target =
-    @"C:\Users\Osrail\Documents\GitHub\Armor-Keyword-Manager\GUI\scripts\Command binding generator.fsx"
+    @"C:\Users\Osrail\Documents\GitHub\Armor-Keyword-Manager\Data\scripts\Scratchpad.fsx"
 
 /////////////////////////////////////////////////////////////////////
 // Don't modify anything below
 /////////////////////////////////////////////////////////////////////
+let (|Regex|_|) pattern input =
+    let m = System.Text.RegularExpressions.Regex.Match(input, pattern)
+
+    if m.Success then
+        Some(List.tail [ for g in m.Groups -> g.Value ])
+    else
+        None
+
+let smartNl =
+    let isNullOrEmpty = String.IsNullOrEmpty
+
+    let smartFold separator acc s =
+        if isNullOrEmpty acc then
+            s
+        else
+            acc + separator + s
+
+    smartFold "\n"
 
 let copyDeclarations target =
     let absPath (s: string) = Path.Combine(__SOURCE_DIRECTORY__, s)

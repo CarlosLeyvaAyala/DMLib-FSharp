@@ -4,6 +4,7 @@ open System.Diagnostics
 open DMLib.String
 open Microsoft.FSharp.Reflection
 open System.ComponentModel
+open System
 
 module Link =
     let openInBrowser url =
@@ -24,22 +25,17 @@ module Objects =
         |> Array.map (fun v -> v.Name, v.GetValue(record))
 
     let inline isNull (x: ^T when ^T: not struct) = obj.ReferenceEquals(x, null)
+    let inline isNotNull (x: ^T when ^T: not struct) = not (obj.ReferenceEquals(x, null))
 
     let (|IsNull|_|) object = if isNull object then Some() else None
 
-///<summary>A class that has already enabled all plumbing to just tell WPF a property has changed.</summary>
-///<remarks>Usage: inherit from this class. When a property has changed,
-///call <c>OnPropertyChanged</c>.</remarks>
-///<example id="wpfbindable"><code lang="fsharp">
-/// type NavItem(uId: string, d: Raw) =
-///     inherit WPFBindable()
-///
-///     member t.Img
-///         with get () = img
-///         and set (v) =
-///             img <- v
-///             t.OnPropertyChanged("Img")
-///</code>
+    let (|IsNotNull|_|) object =
+        if isNull object then
+            None
+        else
+            Some object
+
+[<Obsolete("Use DMLib_WPF")>]
 type WPFBindable() =
     let propertyChanged = Event<PropertyChangedEventHandler, PropertyChangedEventArgs>()
 
