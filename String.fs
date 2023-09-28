@@ -73,6 +73,12 @@ let (|IsUrl|_|) input =
 
 let (|EndsWith|_|) endStr input =
     if endsWith endStr input then
+        Some()
+    else
+        None
+
+let (|EndsWith'|_|) endStr input =
+    if endsWith endStr input then
         Some input
     else
         None
@@ -100,28 +106,36 @@ let regexReplace pattern (replacement: string) input =
 
 /// Checks if a string is contained in other. Case sensitive.
 let (|IsContainedIn|_|) (container: string) (str: string) =
-    if container.Contains str then
+    if container = null || str = null then
+        None
+    elif container.Contains str then
         Some()
     else
         None
 
 /// Checks if a string is contained in other. Case insensitive.
 let (|IsContainedInIC|_|) (container: string) (str: string) =
-    if container.Contains(str, StringComparison.CurrentCultureIgnoreCase) then
+    if container = null || str = null then
+        None
+    elif container.Contains(str, StringComparison.CurrentCultureIgnoreCase) then
         Some()
     else
         None
 
 /// Checks if a string is not contained in other. Case sensitive.
 let (|IsNotContainedIn|_|) (container: string) (str: string) =
-    if container.Contains str then
+    if container = null || str = null then
+        Some()
+    elif container.Contains str then
         None
     else
         Some()
 
 /// Checks if a string is not contained in other. Case insensitive.
 let (|IsNotContainedInIC|_|) (container: string) (str: string) =
-    if container.Contains(str, StringComparison.CurrentCultureIgnoreCase) then
+    if container = null || str = null then
+        Some()
+    elif container.Contains(str, StringComparison.CurrentCultureIgnoreCase) then
         None
     else
         Some()
@@ -167,6 +181,18 @@ let separateCapitals s =
     s
     |> regexReplace @"((?<=[a-z])[A-Z]|[A-Z](?=[a-z]))" " $1"
     |> trimStart
+
+/// Finds the starting string that both inputs share, if any.
+let findCommonRadix s1 s2 =
+    match s1
+          |> Seq.zip s2
+          |> Seq.takeWhile (fun (a, b) -> a = b)
+          |> Seq.map (fun (a, _) -> a)
+          |> Seq.fold (fun acc s -> $"{acc}{s}") ""
+        with
+    | IsEmptyStr -> None
+    | v -> Some v
+
 
 type NonEmptyString = private NonEmptyString of string
 
