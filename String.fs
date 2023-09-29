@@ -104,38 +104,42 @@ let (|IsWhiteSpaceStr|_|) input =
 let regexReplace pattern (replacement: string) input =
     Regex(pattern).Replace(input, replacement)
 
+/// Gets the index of a substring. Case sensitive.
+let (|IsAtIndex|_|) (subStr: string) (str: string) =
+    match str.IndexOf subStr with
+    | -1 -> None
+    | i -> Some i
+
+/// Gets the index of a substring. Case insensitive.
+let (|IsAtIndexIC|_|) (subStr: string) (str: string) =
+    match str.IndexOf(subStr, StringComparison.CurrentCultureIgnoreCase) with
+    | -1 -> None
+    | i -> Some i
+
 /// Checks if a string is contained in other. Case sensitive.
 let (|IsContainedIn|_|) (container: string) (str: string) =
-    if container = null || str = null then
-        None
-    elif container.Contains str then
+    if container.Contains str then
         Some()
     else
         None
 
 /// Checks if a string is contained in other. Case insensitive.
 let (|IsContainedInIC|_|) (container: string) (str: string) =
-    if container = null || str = null then
-        None
-    elif container.Contains(str, StringComparison.CurrentCultureIgnoreCase) then
+    if container.Contains(str, StringComparison.CurrentCultureIgnoreCase) then
         Some()
     else
         None
 
 /// Checks if a string is not contained in other. Case sensitive.
 let (|IsNotContainedIn|_|) (container: string) (str: string) =
-    if container = null || str = null then
-        Some()
-    elif container.Contains str then
+    if container.Contains str then
         None
     else
         Some()
 
 /// Checks if a string is not contained in other. Case insensitive.
 let (|IsNotContainedInIC|_|) (container: string) (str: string) =
-    if container = null || str = null then
-        Some()
-    elif container.Contains(str, StringComparison.CurrentCultureIgnoreCase) then
+    if container.Contains(str, StringComparison.CurrentCultureIgnoreCase) then
         None
     else
         Some()

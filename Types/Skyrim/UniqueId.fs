@@ -5,10 +5,17 @@ open DMLib.Types
 open EspFileNameConstructor
 open DMLib.String
 open DMLib.Combinators
+open System.Runtime.InteropServices
+
+module private UIdH =
+    [<Literal>]
+    let separator = "|"
 
 [<Sealed>]
 type UniqueId(uId: string) =
-    static let separator = "|"
+    [<Literal>]
+    static let separator = UIdH.separator
+
     static let construct esp formId = sprintf "%s%s%s" esp separator formId
 
     static let makeValidId (esp, formId) =
@@ -39,6 +46,11 @@ type UniqueId(uId: string) =
     member _.Split() = separate v
     static member Split uniqueId = separate uniqueId
     static member Separator = separator
+
+    member t.Export([<Optional; DefaultParameterValue(UIdH.separator)>] separator: string) =
+        let (esp, uid) = t.Split()
+        $"{esp}{separator}{uid}"
+
     new(esp: string, formId: string) = UniqueId(makeValidId (esp, formId))
     new(esp: string, formId: byte) = UniqueId(esp, formId.ToString("x"))
     new(esp: string, formId: int16) = UniqueId(esp, formId.ToString("x"))

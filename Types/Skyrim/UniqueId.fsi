@@ -1,5 +1,7 @@
 ﻿namespace DMLib.Types.Skyrim
 
+open System.Runtime.InteropServices
+
 [<Sealed>]
 type UniqueId =
     interface System.IComparable
@@ -18,6 +20,7 @@ type UniqueId =
     override Equals: a: obj -> bool
     override GetHashCode: unit -> int
     member Split: unit -> string * string
+    member Export: [<Optional; DefaultParameterValue(("|" :> obj))>] separator: string -> string
     static member Split: string -> string * string
     static member Separator: string
     override ToString: unit -> string
