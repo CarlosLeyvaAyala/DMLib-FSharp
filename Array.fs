@@ -12,8 +12,8 @@ module ArrayMisc =
 
     let (|EmptyArray|OneElemArray|ManyElemArray|) a =
         match a with
-        | ArrayLengthIs 0 -> EmptyArray
-        | ArrayLengthIs 1 -> OneElemArray(a[0])
+        | [||] -> EmptyArray
+        | [| x |] -> OneElemArray(x)
         | _ ->
             let h = a[0]
             let t = a[1..]
@@ -37,6 +37,21 @@ module Array =
 
     [<Obsolete "Use duplicates instead">]
     let getDuplicates = duplicates
+
+    /// Returns the first element in the array.
+    let first =
+        function
+        | EmptyArray -> None
+        | OneElemArray x -> Some x
+        | ManyElemArray (x, _) -> Some x
+
+    /// Returns the first element in the array or the default provided value.
+    let firstOr value a =
+        match a with
+        | EmptyArray -> value
+        | OneElemArray x -> x
+        | ManyElemArray (x, _) -> x
+
 
     [<RequireQualifiedAccess>]
     module Parallel =

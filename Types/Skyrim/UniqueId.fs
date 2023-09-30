@@ -47,6 +47,11 @@ type UniqueId(uId: string) =
     static member Split uniqueId = separate uniqueId
     static member Separator = separator
 
+    static member ofString separator (s: string) =
+        match s.Split separator with
+        | [| id; esp |] -> UniqueId(esp, id)
+        | _ -> failwith $"Could not create from ({s}) with separator ({separator})"
+
     member t.Export([<Optional; DefaultParameterValue(UIdH.separator)>] separator: string) =
         let (esp, uid) = t.Split()
         $"{esp}{separator}{uid}"

@@ -33,6 +33,7 @@ let split (separator: string) (s: string) = s.Split(separator)
 let startsWith (value: string) (s: string) = s.StartsWith(value)
 let endsWith (value: string) (s: string) = s.EndsWith(value)
 let inline contains (value: string) (s: string) = s.Contains(value)
+let lastIndexOf (substr: string) (str: string) = str.LastIndexOf substr
 
 /// Checks is a string s contains some value
 let inline containsIC (value: string) (s: string) =
@@ -43,6 +44,12 @@ let inline equalsIC (s2: string) (s1: string) =
     s1.Equals(s2, StringComparison.OrdinalIgnoreCase)
 
 let replace (oldValue: string) newValue (s: string) = s.Replace(oldValue, newValue)
+
+let replaceAt (str: string) index (replacement: string) =
+    str
+        .Remove(index, Math.Min(replacement.Length, str.Length - index))
+        .Insert(index, replacement)
+
 let trim (s: string) = s.Trim()
 let trimStart (s: string) = s.TrimStart()
 let trimLeft = trimStart
