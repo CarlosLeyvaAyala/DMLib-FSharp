@@ -37,6 +37,13 @@ let smartNl =
 
     smartFold "\n"
 
+let getRelativePath targetPath filepath =
+    let u1 = Uri(filepath)
+    let u2 = Uri(targetPath)
+
+    (u2.MakeRelativeUri u1)
+        .OriginalString.Replace("/", "\\")
+
 let copyDeclarations target =
     let absPath (s: string) = Path.Combine(__SOURCE_DIRECTORY__, s)
 
@@ -44,15 +51,7 @@ let copyDeclarations target =
     |> Array.choose (function
         | Regex "<Compile Include=\"(.*\\.fs)\"" [ fn ] -> fn |> absPath |> Some
         | _ -> None) // Get file names
-    |> Array.map (fun fn ->
-        let u1 = Uri(fn)
-        let u2 = Uri(target)
-
-        let path =
-            (u2.MakeRelativeUri u1)
-                .OriginalString.Replace("/", "\\")
-
-        $"#load \"{path}\"") // Get declarations
+    |> Array.map (fun fn -> $"#load \"{getRelativePath target fn}\"") // Get declarations
     |> Array.insertAt 0 "// DMLib includes must be deleted once nuget works again"
     |> Array.fold smartNl ""
     |> TextCopy.ClipboardService.SetText

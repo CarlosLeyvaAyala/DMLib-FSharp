@@ -21,6 +21,13 @@ module Path =
     let getRelativeDir relPath dir =
         Path.GetFullPath(Path.Combine(dir, relPath))
 
+    let getRelativePath targetPath filepath =
+        let u1 = Uri(filepath)
+        let u2 = Uri(targetPath)
+
+        (u2.MakeRelativeUri u1)
+            .OriginalString.Replace("/", "\\")
+
     let removeDrive path =
         match path with
         | Regex @".*:\\(.*)" [ np ] -> np
@@ -75,8 +82,26 @@ module Path =
 
         (extList |> List.filter isSameExt).Length > 0
 
+    let getScriptLoadDeclaration sdir sfile filename =
+#if INTERACTIVE
+        filename
+        |> getRelativePath (combine2 sdir sfile)
+        |> sprintf "#load \"%s\""
+#else
+        failwith "This function only works in F# Interactive"
+#endif
+
+    let getScriptLoadDeclarations sdir sfile dir =
+        dir
+        |> Directory.GetFiles
+        |> Array.map (getScriptLoadDeclaration sdir sfile)
+        |> Array.fold foldNl ""
+
+    let getScriptLoadDeclarationsRelative sdir sfile relativeDir =
+        getScriptLoadDeclarations sdir sfile (getRelativeDir relativeDir sdir)
+
 [<AutoOpen>]
-module Patterns =
+module PathPatterns =
     open Path
 
     /// <summary>Is the path a directory?</summary>

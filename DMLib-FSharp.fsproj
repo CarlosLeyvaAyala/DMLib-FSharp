@@ -35,6 +35,7 @@
     <Compile Include="Types\MemoryAddress.fsi" />
     <Compile Include="Types\MemoryAddress.fs" />
     <Compile Include="Types\CanvasPoint.fs" />
+    <Compile Include="Types\Chance.fs" />
     <Compile Include="Types\Skyrim\EDID.fsi" />
     <Compile Include="Types\Skyrim\EDID.fs" />
     <Compile Include="Types\Skyrim\Weight.fsi" />
