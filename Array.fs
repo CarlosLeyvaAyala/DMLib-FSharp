@@ -1,6 +1,7 @@
 ﻿namespace DMLib
 
 open System
+open Combinators
 
 [<AutoOpen>]
 module ArrayMisc =
@@ -52,6 +53,24 @@ module Array =
         | OneElemArray x -> x
         | ManyElemArray (x, _) -> x
 
+    /// Pipeable version of Array.append.
+    let append' a b = swap Array.append a b
+
+    /// Shuffles an array content
+    let shuffle xs =
+        let swap i j (array: _ []) =
+            let tmp = array.[i]
+            array.[i] <- array.[j]
+            array.[j] <- tmp
+
+        let rnd = System.Random()
+        let n = Array.length xs
+
+        for i in [ 0 .. (n - 2) ] do
+            let j = rnd.Next(i, n - 1)
+            swap i j xs
+
+        xs
 
     [<RequireQualifiedAccess>]
     module Parallel =

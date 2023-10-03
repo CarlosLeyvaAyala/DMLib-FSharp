@@ -24,6 +24,17 @@ module Objects =
         FSharpType.GetRecordFields(record.GetType())
         |> Array.map (fun v -> v.Name, v.GetValue(record))
 
+    /// Gets a property from an object so it can be executed with p.GetMethod.Invoke(v, [||])
+    let getPropertyByName name o =
+        o.GetType().GetProperties()
+        |> Array.filter (fun p -> p.Name = name)
+        |> Array.first
+
+    /// Gets all possible cases from a discriminated union.
+    let getUnionCases<'T> () =
+        FSharpType.GetUnionCases(typeof<'T>)
+        |> Array.map (fun case -> FSharpValue.MakeUnion(case, [||]) :?> 'T)
+
     let inline isNull (x: ^T when ^T: not struct) = obj.ReferenceEquals(x, null)
     let inline isNotNull (x: ^T when ^T: not struct) = not (obj.ReferenceEquals(x, null))
 
@@ -34,6 +45,11 @@ module Objects =
             None
         else
             Some object
+
+
+
+
+
 
 [<Obsolete("Use DMLib_WPF")>]
 type WPFBindable() =

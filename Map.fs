@@ -20,6 +20,16 @@ module Map =
                 acc |> Map.add k' v')
             Map.empty
 
+    ///<summary>Merges two maps applying <c>f key (existingValue, newValue)</c> on conflicting keys.</summary>
+    let merge f (oldMap: Map<'a, 'b>) newMap =
+        newMap
+        |> Map.fold
+            (fun acc k nv ->
+                match Map.tryFind k acc with
+                | Some ov -> acc |> Map.add k (f k (ov, nv))
+                | None -> acc |> Map.add k nv)
+            oldMap
+
 [<AutoOpen>]
 module MapPatterns =
     let (|ContainsKey|_|) key map =

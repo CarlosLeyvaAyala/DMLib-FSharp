@@ -3,6 +3,8 @@
 open System.Text.RegularExpressions
 open System
 
+let castToString (s: obj) = s :?> string
+
 ///<summary>Indicates whether the specified string is <see langword="null" /> or an empty string ("").</summary>
 ///<param name="value">The string to test.</param>
 ///<returns><see langword="true" /> if the <paramref name="value" /> parameter is <see langword="null" /> or an empty string (""); otherwise, <see langword="false" />.</returns>
@@ -31,7 +33,15 @@ let toLower (s: string) = s.ToLower()
 let toUpper (s: string) = s.ToUpper()
 let split (separator: string) (s: string) = s.Split(separator)
 let startsWith (value: string) (s: string) = s.StartsWith(value)
+
+let startsWithIC (value: string) (s: string) =
+    s.StartsWith(value, StringComparison.CurrentCultureIgnoreCase)
+
 let endsWith (value: string) (s: string) = s.EndsWith(value)
+
+let endsWithIC (value: string) (s: string) =
+    s.EndsWith(value, StringComparison.CurrentCultureIgnoreCase)
+
 let inline contains (value: string) (s: string) = s.Contains(value)
 let lastIndexOf (substr: string) (str: string) = str.LastIndexOf substr
 
@@ -77,6 +87,18 @@ let isUrl (str: string) =
 
 let (|IsUrl|_|) input =
     if isUrl input then Some input else None
+
+let (|StartsWith|_|) endStr input =
+    if startsWith endStr input then
+        Some()
+    else
+        None
+
+let (|StartsWithIC|_|) endStr input =
+    if startsWithIC endStr input then
+        Some()
+    else
+        None
 
 let (|EndsWith|_|) endStr input =
     if endsWith endStr input then

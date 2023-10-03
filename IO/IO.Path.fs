@@ -18,16 +18,6 @@ module Path =
     let changeExtension ext path = Path.ChangeExtension(path, ext)
     let changeExt = changeExtension
 
-    let getRelativeDir relPath dir =
-        Path.GetFullPath(Path.Combine(dir, relPath))
-
-    let getRelativePath targetPath filepath =
-        let u1 = Uri(filepath)
-        let u2 = Uri(targetPath)
-
-        (u2.MakeRelativeUri u1)
-            .OriginalString.Replace("/", "\\")
-
     let removeDrive path =
         match path with
         | Regex @".*:\\(.*)" [ np ] -> np
@@ -42,6 +32,36 @@ module Path =
     let combine2' = swap combine2
     let combine3 p1 p2 p3 = Path.Combine(p1, p2, p3)
     let combine4 p1 p2 p3 p4 = Path.Combine(p1, p2, p3, p4)
+
+    /// Converts "..\..\xxx" to an absolute path.
+    let getRelativeDir relPath dir =
+        Path.GetFullPath(Path.Combine(dir, relPath))
+
+    /// Given two absolute file paths, calculates how they are relative to each other.
+    let getRelativePath targetPath filepath =
+        let u1 = Uri(filepath)
+        let u2 = Uri(targetPath)
+
+        (u2.MakeRelativeUri u1)
+            .OriginalString.Replace("/", "\\")
+
+    /// Given an absolute and a relative path, expands the relative one.
+    let getExpandedPath (targetRelPath: string) (sourceAbsPath: string) =
+        let src =
+            if Path.HasExtension sourceAbsPath then
+                getDir sourceAbsPath
+            else
+                sourceAbsPath
+
+        let (target, targetFile) =
+            if Path.HasExtension targetRelPath then
+                getDir targetRelPath, getFileName targetRelPath
+            else
+                targetRelPath, ""
+
+        src
+        |> getRelativeDir target
+        |> combine2' targetFile
 
     /// Changes the directory of a file name while maintaining the file name.
     let changeDirectory (path: string) (newDir) = path |> getFileName |> combine2 newDir
@@ -91,14 +111,29 @@ module Path =
         failwith "This function only works in F# Interactive"
 #endif
 
-    let getScriptLoadDeclarations sdir sfile dir =
-        dir
-        |> Directory.GetFiles
-        |> Array.map (getScriptLoadDeclaration sdir sfile)
-        |> Array.fold foldNl ""
+    let getScriptLoadDeclarations scriptPath projectFile getFilesFrom =
+        let projectDir = getDir projectFile
 
-    let getScriptLoadDeclarationsRelative sdir sfile relativeDir =
-        getScriptLoadDeclarations sdir sfile (getRelativeDir relativeDir sdir)
+        let filesInProject =
+            projectFile
+            |> File.ReadAllLines
+            |> Array.choose (function
+                | Regex "<Compile Include=\"(.*\\.fs)\"" [ fn ] -> fn |> Some
+                | _ -> None) // Get file names
+            |> Array.map (fun s -> combine2 projectDir s)
+
+        let filesInDir =
+            Directory.GetFiles(getFilesFrom, "*.*", SearchOption.AllDirectories)
+
+        filesInProject
+        |> Array.filter (fun projectFile ->
+            filesInDir
+            |> Array.exists (fun dir -> dir = projectFile))
+        |> Array.map (fun fn ->
+            fn
+            |> getRelativePath scriptPath
+            |> sprintf "#load \"%s\"")
+        |> Array.fold foldNl ""
 
 [<AutoOpen>]
 module PathPatterns =
