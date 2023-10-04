@@ -35,7 +35,9 @@ module Objects =
         FSharpType.GetUnionCases(typeof<'T>)
         |> Array.map (fun case -> FSharpValue.MakeUnion(case, [||]) :?> 'T)
 
+    /// This function can check if lists or other usually not nullable types are actually null.
     let inline isNull (x: ^T when ^T: not struct) = obj.ReferenceEquals(x, null)
+    /// This function can check if lists or other usually not nullable types are actually null.
     let inline isNotNull (x: ^T when ^T: not struct) = not (obj.ReferenceEquals(x, null))
 
     let (|IsNull|_|) object = if isNull object then Some() else None
@@ -46,7 +48,7 @@ module Objects =
         else
             Some object
 
-
+    let defaultIfNull v o = if isNull o then v else o
 
 
 
