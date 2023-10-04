@@ -12,3 +12,7 @@ module TupleCommon =
 module Tuple =
     let mapFst mapper (first, second) = mapper first, second
     let mapSnd mapper (first, second) = first, mapper second
+    /// Duplicates an element, then maps the first element of the new tuple.
+    let dupMapFst f = dupFst >> mapFst f
+    /// Duplicates an element, then maps the second element of the new tuple.
+    let dupMapSnd f = dupFst >> mapSnd f

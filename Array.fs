@@ -86,3 +86,13 @@ module Array =
                     Some key
                 else
                     None)
+
+        /// Gets the elements that are have a key in a map.
+        let filterByMapKeys map a =
+            a
+            |> filter (fun v -> map |> Map.tryFind v |> Option.isSome)
+
+        /// Gets the elements that are have a key in a map.
+        let chooseByMapKeys map mapper a =
+            a
+            |> Array.Parallel.choose (fun v -> map |> Map.tryFind v |> Option.map mapper)
