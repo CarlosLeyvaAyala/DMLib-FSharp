@@ -50,6 +50,11 @@ module Objects =
 
     let defaultIfNull v o = if isNull o then v else o
 
+    let (|NullableNull|NullableV|) (nullable: Nullable<'a>) =
+        if nullable.HasValue then
+            NullableV nullable.Value
+        else
+            NullableNull
 
 
 
