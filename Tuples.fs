@@ -16,3 +16,4 @@ module Tuple =
     let dupMapFst f = dupFst >> mapFst f
     /// Duplicates an element, then maps the second element of the new tuple.
     let dupMapSnd f = dupFst >> mapSnd f
+    let swap (x, y) = (y, x)
