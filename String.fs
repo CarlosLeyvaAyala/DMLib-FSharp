@@ -210,6 +210,11 @@ let (|Regex|_|) pattern input =
     else
         None
 
+let (|IsInt32|_|) (s: string) =
+    match Int32.TryParse s with
+    | true, x -> Some x
+    | _ -> None
+
 let separateCapitals s =
     s
     |> regexReplace @"((?<=[a-z])[A-Z]|[A-Z](?=[a-z]))" " $1"

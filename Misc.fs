@@ -17,6 +17,8 @@ module Link =
 module Patterns =
     /// Checks if some value is the same as other.
     let (|Equals|_|) x y = if x = y then Some() else None
+    let (|GreaterThan|_|) x y = if x < y then Some() else None
+    let (|LesserThan|_|) x y = if x > y then Some() else None
 
 module Objects =
     /// Converts a record to an array so its fields can be iterated, pretty much like Javascript.
