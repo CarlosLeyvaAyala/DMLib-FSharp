@@ -41,3 +41,8 @@ let (|NullableNull|NullableV|) (nullable: Nullable<'a>) =
         NullableNull
 
 let nullToResult (o: 'a) = if isNull o then Error() else Ok o
+
+let whenIsNotNull f o =
+    match o with
+    | IsNull -> ()
+    | o' -> f o'
