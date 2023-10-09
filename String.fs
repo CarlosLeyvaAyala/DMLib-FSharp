@@ -12,6 +12,8 @@ let isNullOrEmpty = String.IsNullOrEmpty
 
 let isNullOrWhiteSpace = String.IsNullOrWhiteSpace
 
+/// Folder function that folds as is.
+let dumbFold separator acc (s: string) = acc + s + separator
 /// Folder function to create a string separated by new lines.
 let foldNl acc s = acc + s + "\n"
 /// Folder function to create a string separated by commas (readable to humans).

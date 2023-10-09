@@ -23,6 +23,7 @@
     <Compile Include="List.fs" />
     <Compile Include="Map.fs" />
     <Compile Include="Dictionary.fs" />
+    <Compile Include="Objects.fs" />
     <Compile Include="Collections.fs" />
     <Compile Include="Files.fs" />
     <Compile Include="IO\IO.Path.fs" />
