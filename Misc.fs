@@ -4,6 +4,7 @@ open System.Diagnostics
 open DMLib.String
 open System.ComponentModel
 open System
+open System.Threading.Tasks
 
 module Link =
     let openInBrowser url =
@@ -18,6 +19,21 @@ module Patterns =
     let (|Equals|_|) x y = if x = y then Some() else None
     let (|GreaterThan|_|) x y = if x < y then Some() else None
     let (|LesserThan|_|) x y = if x > y then Some() else None
+
+[<AutoOpen>]
+module Misc =
+    /// Converts a normal function to an async one
+    let makeAsync guiContext (f: unit -> unit) =
+        fun () ->
+            async {
+                let currentContext = System.Threading.SynchronizationContext.Current
+                do! Async.SwitchToContext(guiContext)
+                let! _ = Task.Run(f) |> Async.AwaitTask
+                do! Async.SwitchToContext(currentContext)
+                return ()
+            }
+            |> Async.StartImmediate
+
 
 
 
