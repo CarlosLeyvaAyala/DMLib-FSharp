@@ -13,7 +13,7 @@ open System
 #load "String.fs"
 
 let target =
-    @"C:\Users\Osrail\Documents\GitHub\Armor-Keyword-Manager\Data\scripts\Scratchpad.fsx"
+    @"C:\Users\Osrail\source\repos\Max-Sick-Gains-Config-App\Data\scratchpad.fsx"
 
 /////////////////////////////////////////////////////////////////////
 // Don't modify anything below

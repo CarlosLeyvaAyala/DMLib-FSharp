@@ -11,6 +11,7 @@ module ArrayMisc =
         else
             None
 
+    /// An old version used to send an array for OneElemArray
     let (|EmptyArray|OneElemArray|ManyElemArray|) a =
         match a with
         | [||] -> EmptyArray

@@ -33,7 +33,6 @@
     <Compile Include="Misc.fs" />
     <Compile Include="Types\NonEmptyString.fsi" />
     <Compile Include="Types\NonEmptyString.fs" />
-    <Compile Include="Types\RecordId.fsi" />
     <Compile Include="Types\RecordId.fs" />
     <Compile Include="Types\MemoryAddress.fsi" />
     <Compile Include="Types\MemoryAddress.fs" />

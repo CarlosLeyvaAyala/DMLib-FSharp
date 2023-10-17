@@ -3,12 +3,12 @@
 [<Sealed>]
 type RecordId(id: uint64) =
     let v = id
-    member r.Value = v
-    member r.ToUInt64() = v
-    override r.ToString() = sprintf "RecordId %d" v
-    member r.Increment() = RecordId(v + 1UL)
+    member _.Value = v
+    member _.ToUInt64() = v
+    override _.ToString() = sprintf "RecordId %d" v
+    member _.Increment() = RecordId(v + 1UL)
     member r.Next = r.Increment
-    override r.GetHashCode() = hash v
+    override _.GetHashCode() = hash v
 
     override r.Equals(a) =
         match a with
@@ -26,4 +26,15 @@ module RecordIdConstructor =
 #if INTERACTIVE
     fsi.AddPrinter(fun (r: RecordId) -> r.ToString())
 #endif
-    let inline RecordId a = RecordId(a)
+    //let inline RecordId a = RecordId(a)
+    let rid a = RecordId(a)
+
+[<RequireQualifiedAccess>]
+module RecordId =
+    let first = RecordId(1UL)
+    let next (r: RecordId) = r.Next()
+    let value (r: RecordId) = r.Value
+
+type RecordId with
+    static member First = RecordId.first
+    static member GetNext = RecordId.next
