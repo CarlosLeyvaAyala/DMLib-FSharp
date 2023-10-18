@@ -96,6 +96,12 @@ let (|StartsWith|_|) endStr input =
     else
         None
 
+let (|StartsWith'|_|) endStr input =
+    if startsWith endStr input then
+        Some input
+    else
+        None
+
 let (|StartsWithIC|_|) endStr input =
     if startsWithIC endStr input then
         Some()
@@ -214,6 +220,11 @@ let (|Regex|_|) pattern input =
 
 let (|IsInt32|_|) (s: string) =
     match Int32.TryParse s with
+    | true, x -> Some x
+    | _ -> None
+
+let (|IsUInt64|_|) (s: string) =
+    match UInt64.TryParse s with
     | true, x -> Some x
     | _ -> None
 
