@@ -48,8 +48,11 @@
     <Compile Include="Types\Skyrim\UniqueId.fs" />
     <None Include="Types\Skyrim\test.fsx" />
     <None Include="Types\test.fsx" />
-    <None Include="Scratchpad.fsx" />
-    <None Include="Relative paths.fsx" />
+    <None Include="scripts\Scratchpad.fsx" />
+    <None Include="scripts\Command binding generator.fsx" />
+    <None Include="scripts\Relative paths.fsx" />
+    <None Include="scripts\Comment banner creator.fsx" />
+    <None Include="scripts\Guid generator.fsx" />
   </ItemGroup>
 
 </Project>

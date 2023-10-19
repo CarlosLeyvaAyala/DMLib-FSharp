@@ -9,8 +9,8 @@ open System.IO
 open System
 
 #r "nuget: TextCopy"
-#load "Result.fs"
-#load "String.fs"
+#load "..\Result.fs"
+#load "..\String.fs"
 
 let target =
     @"C:\Users\Osrail\source\repos\Max-Sick-Gains-Config-App\Data\scratchpad.fsx"
@@ -45,7 +45,8 @@ let getRelativePath targetPath filepath =
         .OriginalString.Replace("/", "\\")
 
 let copyDeclarations target =
-    let absPath (s: string) = Path.Combine(__SOURCE_DIRECTORY__, s)
+    let absPath (s: string) =
+        Path.Combine(Path.GetDirectoryName __SOURCE_DIRECTORY__, s)
 
     File.ReadAllLines(absPath "DMLib-FSharp.fsproj")
     |> Array.choose (function
