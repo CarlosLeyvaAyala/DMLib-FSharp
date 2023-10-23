@@ -58,20 +58,22 @@ module Array =
     let append' a b = swap Array.append a b
 
     /// Shuffles an array content
-    let shuffle xs =
+    let shuffle a =
+        let r = Array.copy a
+
         let swap i j (array: _ []) =
             let tmp = array.[i]
             array.[i] <- array.[j]
             array.[j] <- tmp
 
         let rnd = System.Random()
-        let n = Array.length xs
+        let n = Array.length r
 
-        for i in [ 0 .. (n - 2) ] do
-            let j = rnd.Next(i, n - 1)
-            swap i j xs
+        for i in [ 0 .. (n - 1) ] do
+            let j = rnd.Next(i, n)
+            swap i j r
 
-        xs
+        r
 
     [<RequireQualifiedAccess>]
     module Parallel =
