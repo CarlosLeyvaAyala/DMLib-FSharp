@@ -234,6 +234,11 @@ let (|IsUInt64|_|) (s: string) =
     | true, x -> Some x
     | _ -> None
 
+let (|IsUInt32|_|) (s: string) =
+    match UInt32.TryParse s with
+    | true, x -> Some x
+    | _ -> None
+
 let (|IsDouble|_|) (s: string) =
     match Double.TryParse s with
     | true, x -> Some x
@@ -255,6 +260,39 @@ let findCommonRadix s1 s2 =
     | IsEmptyStr -> None
     | v -> Some v
 
+/// Given two software versions, return the highest of them.
+let getHighestVersion versionToCheck existingVersion =
+    let toNumbers s =
+        s
+        |> split "."
+        |> Array.map (function
+            | IsUInt32 x -> x
+            | _ -> 0u)
+
+
+    let n1 = existingVersion |> toNumbers
+    let n2 = versionToCheck |> toNumbers
+    let l = Math.Max(n1.Length, n2.Length)
+
+    let padZeros (a: uint32 array) =
+        let blank = Array.create (l - a.Length) 0u
+        Array.append a blank
+
+    let compare = (padZeros n1, padZeros n2) ||> Array.zip
+
+    let differentIdx =
+        compare
+        |> Array.mapi (fun i v -> i, v)
+        |> Array.takeWhile (snd >> fun (a, b) -> a = b)
+        |> Array.first
+        |> Option.map (fst >> fun i -> i + 1)
+        |> Option.defaultValue 0
+
+    match compare[differentIdx] with
+    | o, n when o > n -> existingVersion
+    | o, n when o < n -> versionToCheck
+    // Both are the same, but return the old to reflect there was no change
+    | _ -> existingVersion
 
 type NonEmptyString = private NonEmptyString of string
 
