@@ -90,7 +90,7 @@ let genBindings staticClass =
 
 let copy = TextCopy.ClipboardService.SetText
 
-let r = "Journey" |> classFromClipboard |> genBindings
+let r = "ItemCmds" |> classFromClipboard |> genBindings
 
 r.bindings |> copy
 r.declarations |> copy

@@ -1,6 +1,6 @@
 ﻿#r "nuget: TextCopy"
 
-let contents = "selected journey stage"
+let contents = "tag viewer"
 
 let w = 80
 let len = contents.Length

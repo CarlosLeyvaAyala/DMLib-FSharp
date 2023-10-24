@@ -10,10 +10,12 @@ open System
 
 #r "nuget: TextCopy"
 #load "..\Result.fs"
+#load "..\Combinators.fs"
+#load "..\Array.fs"
 #load "..\String.fs"
 
-let target =
-    @"C:\Users\Osrail\source\repos\Max-Sick-Gains-Config-App\Data\scratchpad.fsx"
+printf "What's the target scratchpad file path? "
+let target = Console.ReadLine()
 
 /////////////////////////////////////////////////////////////////////
 // Don't modify anything below

@@ -19,3 +19,12 @@ let copyWithSameName destDir filename =
     |> dupFst
     |> Tuple.mapSnd (swap changeDirectory destDir)
     |> File.Copy
+
+/// Reads a file. Returns None if file doesn't exist or raises an exception.
+///
+/// Don't use in C#.
+let readAllLines filename =
+    try
+        File.ReadAllLines filename |> Some
+    with
+    | _ -> None

@@ -75,6 +75,9 @@ module Array =
 
         r
 
+    let getRandomElement (a: 'a array) =
+        a |> Array.item (Random().Next a.Length)
+
     [<RequireQualifiedAccess>]
     module Parallel =
         let filter predicate array =
