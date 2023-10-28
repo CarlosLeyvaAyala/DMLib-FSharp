@@ -1,6 +1,7 @@
 ﻿module DMLib.Combinators
 
 let i x = x
+let K x = fun _ -> x
 
 let tap f x =
     f
