@@ -28,3 +28,12 @@ let readAllLines filename =
         File.ReadAllLines filename |> Some
     with
     | _ -> None
+
+/// Reads a file. Returns None if file doesn't exist or raises an exception.
+///
+/// Don't use in C#.
+let readAllText filename =
+    try
+        File.ReadAllText filename |> Some
+    with
+    | _ -> None
