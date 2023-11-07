@@ -249,6 +249,8 @@ let separateCapitals s =
     |> regexReplace @"((?<=[a-z])[A-Z]|[A-Z](?=[a-z]))" " $1"
     |> trimStart
 
+let capitalizeFirst (s: string) = Char.ToUpper(s[0]).ToString() + s[1..]
+
 /// Finds the starting string that both inputs share, if any.
 let findCommonRadix s1 s2 =
     match s1
