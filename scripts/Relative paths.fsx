@@ -5,10 +5,11 @@
 //          #r "nuget: carlos.leyva.ayala.dmlib"
 // anymore.
 
+#r "nuget: TextCopy"
+
 open System.IO
 open System
 
-#r "nuget: TextCopy"
 #load "..\Result.fs"
 #load "..\Combinators.fs"
 #load "..\Array.fs"
