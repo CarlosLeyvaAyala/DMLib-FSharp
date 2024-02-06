@@ -42,8 +42,7 @@ module Path =
         let u1 = Uri(filepath)
         let u2 = Uri(targetPath)
 
-        (u2.MakeRelativeUri u1)
-            .OriginalString.Replace("/", "\\")
+        (u2.MakeRelativeUri u1).OriginalString.Replace("/", "\\")
 
     /// Given an absolute and a relative path, expands the relative one.
     let getExpandedPath (targetRelPath: string) (sourceAbsPath: string) =
@@ -59,27 +58,21 @@ module Path =
             else
                 targetRelPath, ""
 
-        src
-        |> getRelativeDir target
-        |> combine2' targetFile
+        src |> getRelativeDir target |> combine2' targetFile
 
     /// Changes the directory of a file name while maintaining the file name.
     let changeDirectory (path: string) (newDir) = path |> getFileName |> combine2 newDir
 
     /// Changes the name of a file while maintaining the directory.
     let rename newName (oldName: string) =
-        oldName
-        |> Path.GetDirectoryName
-        |> combine2' newName
+        oldName |> Path.GetDirectoryName |> combine2' newName
 
     /// Changes the name of a file while maintaining the directory.
     let rename' = swap rename
 
     /// Changes the name of a file while maintaining the directory. The mapping function accepts the orignal file name.
     let renameMap mapping (oldName: string) =
-        Path.GetFileName oldName
-        |> mapping
-        |> combine2 (Path.GetDirectoryName oldName)
+        Path.GetFileName oldName |> mapping |> combine2 (Path.GetDirectoryName oldName)
 
     /// Changes the name of a file while maintaining the directory. The mapping function accepts the orignal file name.
     let renameMap' = swap renameMap
@@ -104,9 +97,7 @@ module Path =
 
     let getScriptLoadDeclaration sdir sfile filename =
 #if INTERACTIVE
-        filename
-        |> getRelativePath (combine2 sdir sfile)
-        |> sprintf "#load \"%s\""
+        filename |> getRelativePath (combine2 sdir sfile) |> sprintf "#load \"%s\""
 #else
         failwith "This function only works in F# Interactive"
 #endif
@@ -126,13 +117,8 @@ module Path =
             Directory.GetFiles(getFilesFrom, "*.*", SearchOption.AllDirectories)
 
         filesInProject
-        |> Array.filter (fun projectFile ->
-            filesInDir
-            |> Array.exists (fun dir -> dir = projectFile))
-        |> Array.map (fun fn ->
-            fn
-            |> getRelativePath scriptPath
-            |> sprintf "#load \"%s\"")
+        |> Array.filter (fun projectFile -> filesInDir |> Array.exists (fun dir -> dir = projectFile))
+        |> Array.map (fun fn -> fn |> getRelativePath scriptPath |> sprintf "#load \"%s\"")
         |> Array.fold foldNl ""
 
 [<AutoOpen>]
@@ -144,32 +130,22 @@ module PathPatterns =
     let (|IsDir|_|) path =
         match File.GetAttributes(path: string) with
         | FileAttributes.Directory -> Some path
-        | _ -> None
+        | _ -> if Directory.Exists path then Some path else None
 
     /// <summary>Does a file exist?</summary>
     /// <returns>The full input file name.</returns>
     let (|FileExists|_|) filename =
-        if File.Exists filename then
-            Some filename
-        else
-            None
+        if File.Exists filename then Some filename else None
 
     /// <summary>Does a file exist?</summary>
     /// <returns>The full input file name.</returns>
     let (|FileNotExists|_|) filename =
-        if File.Exists filename then
-            None
-        else
-            Some filename
+        if File.Exists filename then None else Some filename
 
     /// <summary>Does a file end with an extension? Extension to check does not need to start with <c>'.'</c>.</summary>
     /// <returns>The full input file name.</returns>
     let (|IsExtension|_|) (ext: string) filename =
-        let ext' =
-            if ext.StartsWith('.') then
-                ext
-            else
-                "." + ext
+        let ext' = if ext.StartsWith('.') then ext else "." + ext
 
         if String.Equals(ext', getExt filename, StringComparison.OrdinalIgnoreCase) then
             Some filename
@@ -179,7 +155,12 @@ module PathPatterns =
     /// <summary>Does a file end with an extension? Extension to check does not need to start with <c>'.'</c>.</summary>
     /// <returns>The full input file name.</returns>
     let (|IsInExtensionList|_|) ext filename =
-        if isExtensionL ext filename then
-            Some filename
-        else
-            None
+        if isExtensionL ext filename then Some filename else None
+
+
+    /// <summary>Checks if a path has an extension. Can be used to check if a path is a dir or a file.</summary>
+    /// <returns>The extension, in case it exists.</returns>
+    let (|HasExtension|_|) filename =
+        match filename |> Path.getExt with
+        | IsEmptyStr -> None
+        | e -> Some e

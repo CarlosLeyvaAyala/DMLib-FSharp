@@ -21,10 +21,7 @@ let foldPrettyComma acc s = acc + s + ", "
 
 /// Folds a string in such a way that the last element does not end with the separator.
 let smartFold separator acc s =
-    if isNullOrEmpty acc then
-        s
-    else
-        acc + separator + s
+    if isNullOrEmpty acc then s else acc + separator + s
 
 let smartNl = smartFold "\n"
 let smartPrettyComma = smartFold ", "
@@ -97,52 +94,28 @@ let (|IsUrl|_|) input =
     if isUrl input then Some input else None
 
 let (|StartsWith|_|) endStr input =
-    if startsWith endStr input then
-        Some()
-    else
-        None
+    if startsWith endStr input then Some() else None
 
 let (|StartsWith'|_|) endStr input =
-    if startsWith endStr input then
-        Some input
-    else
-        None
+    if startsWith endStr input then Some input else None
 
 let (|StartsWithIC|_|) endStr input =
-    if startsWithIC endStr input then
-        Some()
-    else
-        None
+    if startsWithIC endStr input then Some() else None
 
 let (|EndsWith|_|) endStr input =
-    if endsWith endStr input then
-        Some()
-    else
-        None
+    if endsWith endStr input then Some() else None
 
 let (|EndsWith'|_|) endStr input =
-    if endsWith endStr input then
-        Some input
-    else
-        None
+    if endsWith endStr input then Some input else None
 
 let (|IsEmptyStr|_|) input =
-    if isNullOrEmpty input then
-        Some()
-    else
-        None
+    if isNullOrEmpty input then Some() else None
 
 let (|IsNotEmptyStr|_|) input =
-    if isNullOrEmpty input then
-        None
-    else
-        Some()
+    if isNullOrEmpty input then None else Some()
 
 let (|IsWhiteSpaceStr|_|) input =
-    if isNullOrWhiteSpace input then
-        Some()
-    else
-        None
+    if isNullOrWhiteSpace input then Some() else None
 
 let regexReplace pattern (replacement: string) input =
     Regex(pattern).Replace(input, replacement)
@@ -161,10 +134,7 @@ let (|IsAtIndexIC|_|) (subStr: string) (str: string) =
 
 /// Checks if a string is contained in other. Case sensitive.
 let (|IsContainedIn|_|) (container: string) (str: string) =
-    if container.Contains str then
-        Some()
-    else
-        None
+    if container.Contains str then Some() else None
 
 /// Checks if a string is contained in other. Case insensitive.
 let (|IsContainedInIC|_|) (container: string) (str: string) =
@@ -175,10 +145,7 @@ let (|IsContainedInIC|_|) (container: string) (str: string) =
 
 /// Checks if a string is not contained in other. Case sensitive.
 let (|IsNotContainedIn|_|) (container: string) (str: string) =
-    if container.Contains str then
-        None
-    else
-        Some()
+    if container.Contains str then None else Some()
 
 /// Checks if a string is not contained in other. Case insensitive.
 let (|IsNotContainedInIC|_|) (container: string) (str: string) =
@@ -189,10 +156,7 @@ let (|IsNotContainedInIC|_|) (container: string) (str: string) =
 
 /// Checks if a string contains other. Case sensitive.
 let (|Contains|_|) (substr: string) (str: string) =
-    if str.Contains(substr) then
-        Some()
-    else
-        None
+    if str.Contains(substr) then Some() else None
 
 /// Checks if a string contains other. Case insensitive.
 let (|ContainsIC|_|) (substr: string) (str: string) =
@@ -203,10 +167,7 @@ let (|ContainsIC|_|) (substr: string) (str: string) =
 
 /// Checks if a string does not contain other. Case sensitive.
 let (|NotContains|_|) (substr: string) (str: string) =
-    if str.Contains(substr) then
-        None
-    else
-        Some()
+    if str.Contains(substr) then None else Some()
 
 /// Checks if a string does not contain other. Case insensitive.
 let (|NotContainsIC|_|) (substr: string) (str: string) =
@@ -223,6 +184,10 @@ let (|Regex|_|) pattern input =
         Some(List.tail [ for g in m.Groups -> g.Value ])
     else
         None
+
+let (|Split|) (on: string) (s: string) =
+    s.Split(on, StringSplitOptions.RemoveEmptyEntries ||| StringSplitOptions.TrimEntries)
+    |> Array.toList
 
 let (|IsInt32|_|) (s: string) =
     match Int32.TryParse s with
@@ -245,20 +210,19 @@ let (|IsDouble|_|) (s: string) =
     | _ -> None
 
 let separateCapitals s =
-    s
-    |> regexReplace @"((?<=[a-z])[A-Z]|[A-Z](?=[a-z]))" " $1"
-    |> trimStart
+    s |> regexReplace @"((?<=[a-z])[A-Z]|[A-Z](?=[a-z]))" " $1" |> trimStart
 
 let capitalizeFirst (s: string) = Char.ToUpper(s[0]).ToString() + s[1..]
 
 /// Finds the starting string that both inputs share, if any.
 let findCommonRadix s1 s2 =
-    match s1
-          |> Seq.zip s2
-          |> Seq.takeWhile (fun (a, b) -> a = b)
-          |> Seq.map (fun (a, _) -> a)
-          |> Seq.fold (fun acc s -> $"{acc}{s}") ""
-        with
+    match
+        s1
+        |> Seq.zip s2
+        |> Seq.takeWhile (fun (a, b) -> a = b)
+        |> Seq.map (fun (a, _) -> a)
+        |> Seq.fold (fun acc s -> $"{acc}{s}") ""
+    with
     | IsEmptyStr -> None
     | v -> Some v
 
@@ -341,10 +305,7 @@ type QuotedStr = private QuotedStr of string
 
 module QuotedStr =
     let private transformIfNot transform condition x =
-        if not (condition x) then
-            transform x
-        else
-            x
+        if not (condition x) then transform x else x
 
     let private q = "\""
     let private ensureFirstQuote = transformIfNot (fun s -> q + s) (startsWith q)

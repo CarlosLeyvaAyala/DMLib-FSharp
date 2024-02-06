@@ -11,6 +11,7 @@
 #load "..\Combinators.fs"
 #load "..\MathL.fs"
 #load "..\Result.fs"
+#load "..\Array.fs"
 #load "..\String.fs"
 
 open System.Text.RegularExpressions
@@ -90,7 +91,7 @@ let genBindings staticClass =
 
 let copy = TextCopy.ClipboardService.SetText
 
-let r = "ItemCmds" |> classFromClipboard |> genBindings
+let r = "AppCmds" |> classFromClipboard |> genBindings
 
 r.bindings |> copy
 r.declarations |> copy
