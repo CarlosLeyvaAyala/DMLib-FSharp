@@ -102,6 +102,9 @@ let (|StartsWith'|_|) endStr input =
 let (|StartsWithIC|_|) endStr input =
     if startsWithIC endStr input then Some() else None
 
+let (|StartsWithIC'|_|) endStr input =
+    if startsWithIC endStr input then Some input else None
+
 let (|EndsWith|_|) endStr input =
     if endsWith endStr input then Some() else None
 
