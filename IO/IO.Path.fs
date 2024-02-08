@@ -157,7 +157,6 @@ module PathPatterns =
     let (|IsInExtensionList|_|) ext filename =
         if isExtensionL ext filename then Some filename else None
 
-
     /// <summary>Checks if a path has an extension. Can be used to check if a path is a dir or a file.</summary>
     /// <returns>The extension, in case it exists.</returns>
     let (|HasExtension|_|) filename =

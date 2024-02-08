@@ -1,6 +1,6 @@
 // Generates the list of files of this project relative to an fsx file.
 //
-// Needed to create this because my last update of Visual Studio completelly
+// Needed to create this because my last update of Visual Studio completely
 // fucked up my nuget configuration and I can't use
 //          #r "nuget: carlos.leyva.ayala.dmlib"
 // anymore.
@@ -33,10 +33,7 @@ let smartNl =
     let isNullOrEmpty = String.IsNullOrEmpty
 
     let smartFold separator acc s =
-        if isNullOrEmpty acc then
-            s
-        else
-            acc + separator + s
+        if isNullOrEmpty acc then s else acc + separator + s
 
     smartFold "\n"
 
@@ -44,8 +41,7 @@ let getRelativePath targetPath filepath =
     let u1 = Uri(filepath)
     let u2 = Uri(targetPath)
 
-    (u2.MakeRelativeUri u1)
-        .OriginalString.Replace("/", "\\")
+    (u2.MakeRelativeUri u1).OriginalString.Replace("/", "\\")
 
 let copyDeclarations target =
     let absPath (s: string) =
