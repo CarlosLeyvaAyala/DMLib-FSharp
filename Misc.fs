@@ -31,6 +31,17 @@ module Misc =
             }
             |> Async.StartImmediate
 
+    /// Caches results from some function.
+    let memoize (f: 'a -> 'b) =
+        let mutable cache: Map<'a, 'b> = Map.empty
+
+        fun (x: 'a) ->
+            match cache |> Map.tryFind x with
+            | None ->
+                let y = f x
+                cache <- cache.Add(x, y)
+                y
+            | Some v -> v
 
 
 
