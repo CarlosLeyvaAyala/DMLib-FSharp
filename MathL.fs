@@ -29,6 +29,13 @@ let forceRange lo hi x = x |> forceMax hi |> forceMin lo
 [<CompiledName("IsInRange")>]
 let inline isInRange<'a when 'a: comparison> (lo: 'a) hi x : bool = x >= lo && x <= hi
 
+/// Checks if the range is actually valid
+[<CompiledName("IsInRange'")>]
+let inline isInRange'<'a when 'a: comparison> (lo: 'a) hi x : bool =
+    let l = min lo hi
+    let h = max lo hi
+    isInRange l h x
+
 [<CompiledName("ForcePositive")>]
 let forcePositive x = max 0.0 x
 
@@ -49,6 +56,10 @@ let linCurve p1 p2 =
 
     fun x -> m * (x - x1) + y1
 
+[<CompiledName("LinCurveT")>]
+let linCurveT p1 p2 =
+    (PointF.ofTuple p1, PointF.ofTuple p2) ||> linCurve
+
 [<CompiledName("ExpCurve")>]
 let expCurve shape p1 p2 x =
     let e = Math.Exp
@@ -56,7 +67,7 @@ let expCurve shape p1 p2 x =
     let ebx1 = e (b * p1.X)
 
     match (e (b * p2.X)) - ebx1 with
-    | x when x = 0 -> linCurve p1 p2 x // Shape is actually a line, not an exponential curve.
+    | m when m = 0 -> linCurve p1 p2 x // Shape is actually a line, not an exponential curve.
     | d ->
         let a = (p2.Y - p1.Y) / d
         let c = p1.Y - a * ebx1

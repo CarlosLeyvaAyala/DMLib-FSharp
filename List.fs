@@ -2,6 +2,7 @@
 module DMLib.List
 
 open System
+open DMLib.Combinators
 
 let duplicates l =
     l
@@ -16,6 +17,9 @@ let insertDistinctAt index value source =
 
 let insertManyDistinctAt index values source =
     source |> List.insertManyAt index values |> List.distinct
+
+/// Pipeable version of List.append.
+let append' a b = swap List.append a b
 
 open System.Collections.Generic
 

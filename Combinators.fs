@@ -2,6 +2,7 @@
 
 let i x = x
 let K x = fun _ -> x
+let k' f = fun _ -> f ()
 
 let tap f x =
     f

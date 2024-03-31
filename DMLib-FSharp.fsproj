@@ -54,6 +54,7 @@
     <None Include="scripts\Relative paths.fsx" />
     <None Include="scripts\Comment banner creator.fsx" />
     <None Include="scripts\Guid generator.fsx" />
+    <None Include="scripts\EnumConverter.fsx" />
   </ItemGroup>
 
   <ItemGroup>
