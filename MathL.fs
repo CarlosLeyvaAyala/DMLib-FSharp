@@ -73,6 +73,10 @@ let expCurve shape p1 p2 x =
         let c = p1.Y - a * ebx1
         a * (e (b * x)) + c
 
+[<CompiledName("LinCurveT")>]
+let expCurveT shape p1 p2 =
+    (PointF.ofTuple p1, PointF.ofTuple p2) ||> expCurve shape
+
 // https://www.developpez.net/forums/d331608-3/general-developpement/algorithme-mathematiques/contribuez/image-interpolation-spline-cubique/#post3513925
 let private secondDerivative (p: PointF array) =
     let n = p.Length

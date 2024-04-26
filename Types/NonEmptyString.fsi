@@ -8,6 +8,9 @@ type NonEmptyString =
     override GetHashCode: unit -> int
     override ToString: unit -> string
     member Value: string
+    static member (+): a: NonEmptyString * b: NonEmptyString -> NonEmptyString
+    static member (+): a: NonEmptyString * b: string -> NonEmptyString
+    static member (+): a: string * b: NonEmptyString -> NonEmptyString
 
 [<AutoOpen>]
 module NonEmptyStringConstructor =

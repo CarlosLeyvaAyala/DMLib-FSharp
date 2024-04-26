@@ -31,6 +31,10 @@ type NonEmptyString(s: string) =
             | :? string as x -> compare s.Value x
             | _ -> invalidArg (nameof a) "Can not compare to this type."
 
+    static member (+)(a: NonEmptyString, b: NonEmptyString) = a.Value + b.Value |> NonEmptyString
+    static member (+)(a: NonEmptyString, b: string) = a.Value + b |> NonEmptyString
+    static member (+)(a: string, b: NonEmptyString) = a + b.Value |> NonEmptyString
+
 [<AutoOpen>]
 module NonEmptyStringConstructor =
 #if INTERACTIVE

@@ -55,6 +55,7 @@
     <None Include="scripts\Comment banner creator.fsx" />
     <None Include="scripts\Guid generator.fsx" />
     <None Include="scripts\EnumConverter.fsx" />
+    <None Include="scripts\RecordConverter.fsx" />
   </ItemGroup>
 
   <ItemGroup>
