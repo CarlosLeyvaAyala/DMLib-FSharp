@@ -47,7 +47,7 @@ type UniqueId(uId: string) =
     static member Split uniqueId = separate uniqueId
     static member Separator = separator
 
-    static member ofString separator (s: string) =
+    static member ofString (separator: char array) (s: string) =
         match s.Split separator with
         | [| id; esp |] -> UniqueId(esp, id)
         | _ -> failwith $"Could not create from ({s}) with separator ({separator})"

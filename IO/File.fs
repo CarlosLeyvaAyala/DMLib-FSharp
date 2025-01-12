@@ -7,6 +7,7 @@ open System.IO
 open DMLib.Combinators
 open DMLib.IO.Path
 
+/// Opens a file with its default program using the shell.
 [<CompiledName("Execute")>]
 let execute filepath =
     let mutable p = ProcessStartInfo(filepath)
@@ -15,10 +16,7 @@ let execute filepath =
 
 [<CompiledName("CopyWithSameName")>]
 let copyWithSameName destDir filename =
-    filename
-    |> dupFst
-    |> Tuple.mapSnd (swap changeDirectory destDir)
-    |> File.Copy
+    filename |> dupFst |> Tuple.mapSnd (swap changeDirectory destDir) |> File.Copy
 
 /// Reads a file. Returns None if file doesn't exist or raises an exception.
 ///
@@ -26,8 +24,8 @@ let copyWithSameName destDir filename =
 let readAllLines filename =
     try
         File.ReadAllLines filename |> Some
-    with
-    | _ -> None
+    with _ ->
+        None
 
 /// Reads a file. Returns None if file doesn't exist or raises an exception.
 ///
@@ -35,5 +33,5 @@ let readAllLines filename =
 let readAllText filename =
     try
         File.ReadAllText filename |> Some
-    with
-    | _ -> None
+    with _ ->
+        None

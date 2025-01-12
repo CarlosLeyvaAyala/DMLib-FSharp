@@ -10,10 +10,11 @@
 open System.IO
 open System
 
-#load "..\Result.fs"
-#load "..\Combinators.fs"
-#load "..\Array.fs"
-#load "..\String.fs"
+#I ".."
+#load "Result.fs"
+#load "Combinators.fs"
+#load "Array.fs"
+#load "String.fs"
 
 printf "What's the target scratchpad file path? "
 let target = Console.ReadLine()
@@ -43,17 +44,20 @@ let getRelativePath targetPath filepath =
 
     (u2.MakeRelativeUri u1).OriginalString.Replace("/", "\\")
 
-let copyDeclarations target =
-    let absPath (s: string) =
-        Path.Combine(Path.GetDirectoryName __SOURCE_DIRECTORY__, s)
+//let copyDeclarations target =
+let projectDir = Path.GetDirectoryName __SOURCE_DIRECTORY__
+let absPath (s: string) = Path.Combine(projectDir, s)
+let IDir = getRelativePath target projectDir
+let rel = getRelativePath (projectDir + "\\")
 
-    File.ReadAllLines(absPath "DMLib-FSharp.fsproj")
-    |> Array.choose (function
-        | Regex "<Compile Include=\"(.*\\.fs)\"" [ fn ] -> fn |> absPath |> Some
-        | _ -> None) // Get file names
-    |> Array.map (fun fn -> $"#load \"{getRelativePath target fn}\"") // Get declarations
-    |> Array.insertAt 0 "// DMLib includes must be deleted once nuget works again"
-    |> Array.fold smartNl ""
-    |> TextCopy.ClipboardService.SetText
+File.ReadAllLines(absPath "DMLib-FSharp.fsproj")
+|> Array.choose (function
+    | Regex "<Compile Include=\"(.*\\.fs)\"" [ fn ] -> fn |> absPath |> Some
+    | _ -> None) // Get file names
+|> Array.map (fun fn -> $"#load \"{rel fn}\"") // Get declarations
+|> Array.insertAt 0 $"#I \"{IDir}\""
+|> Array.insertAt 0 "// DMLib includes must be deleted once nuget works again"
+|> Array.fold smartNl ""
+|> TextCopy.ClipboardService.SetText
 
-copyDeclarations target
+//copyDeclarations target

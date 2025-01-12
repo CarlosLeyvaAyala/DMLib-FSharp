@@ -18,7 +18,9 @@ module Patterns =
     /// Checks if some value is the same as other.
     let (|Equals|_|) x y = if x = y then Some() else None
     let (|GreaterThan|_|) x y = if x < y then Some() else None
+    let (|GreaterOrEqualThan|_|) x y = if x <= y then Some() else None
     let (|LesserThan|_|) x y = if x > y then Some() else None
+    let (|LesserOrEqualThan|_|) x y = if x >= y then Some() else None
 
 [<AutoOpen>]
 module Misc =

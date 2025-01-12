@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
     <RootNamespace>DMLib_FSharp</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>carlos.leyva.ayala.dmlib</PackageId>
@@ -11,6 +11,7 @@
     <Description>F# library for general common operations and types.</Description>
     <Version>1.2.31</Version>
     <PackageVersion>1.2.31</PackageVersion>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -59,7 +60,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="8.0.300" />
+    <PackageReference Update="FSharp.Core" Version="9.0.100" />
   </ItemGroup>
 
 </Project>

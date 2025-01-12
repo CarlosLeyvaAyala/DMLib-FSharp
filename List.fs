@@ -36,3 +36,7 @@ let partitionResult xs =
     let l x = x |> seq |> List.ofSeq
 
     (l oks, l errors)
+
+let takeAtMost count (list: 'a list) =
+    let c = if count > list.Length then list.Length else count
+    list |> List.take c
