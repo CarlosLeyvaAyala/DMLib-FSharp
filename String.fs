@@ -232,6 +232,15 @@ let (|Regex|_|) pattern input =
     else
         None
 
+/// Checks if some string conforms to a Regex pattern. Returns all matches.
+let (|Regexs|_|) pattern input =
+    match
+        [ for m in System.Text.RegularExpressions.Regex.Matches(input, pattern) ->
+              List.tail [ for g in m.Groups -> g.Value ] ]
+    with
+    | [] -> None
+    | l -> Some l
+
 let (|Split|) (on: string) (s: string) =
     s.Split(on, StringSplitOptions.RemoveEmptyEntries ||| StringSplitOptions.TrimEntries)
     |> Array.toList

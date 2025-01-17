@@ -23,3 +23,4 @@ module Tuple =
     /// Duplicates an element, then maps the second element of the new tuple.
     let dupMapSnd f = dupFst >> mapSnd f
     let swap (x, y) = (y, x)
+    let mapBoth mapper1 mapper2 (v1, v2) = (mapper1 v1, mapper2 v2)

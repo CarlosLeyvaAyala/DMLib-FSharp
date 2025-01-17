@@ -40,3 +40,6 @@ let partitionResult xs =
 let takeAtMost count (list: 'a list) =
     let c = if count > list.Length then list.Length else count
     list |> List.take c
+
+let skipAtMost count list =
+    list |> List.skip (Math.Min(List.length list, count))
