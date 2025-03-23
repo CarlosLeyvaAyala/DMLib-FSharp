@@ -43,3 +43,6 @@ let takeAtMost count (list: 'a list) =
 
 let skipAtMost count list =
     list |> List.skip (Math.Min(List.length list, count))
+
+let updateAt mapping predicate list =
+    list |> List.map (fun e -> if predicate e then mapping e else e)

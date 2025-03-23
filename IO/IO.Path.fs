@@ -27,8 +27,8 @@ module Path =
         Path.TrimEndingDirectorySeparator(path: string)
 
     let combineArray a = Path.Combine(a: string array)
-    /// Pipeable version of Path.Combine
     let combine2 (p1: string) p2 = Path.Combine(p1, p2)
+    /// Pipeable version of Path.Combine
     let combine2' = swap combine2
     let combine3 p1 p2 p3 = Path.Combine(p1, p2, p3)
     let combine4 p1 p2 p3 p4 = Path.Combine(p1, p2, p3, p4)

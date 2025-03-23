@@ -117,6 +117,9 @@ let (|IsEmptyStr|_|) input =
 let (|IsNotEmptyStr|_|) input =
     if isNullOrEmpty input then None else Some()
 
+let (|IsNotEmptyStr'|_|) input =
+    if isNullOrEmpty input then None else Some input
+
 let (|IsWhiteSpaceStr|_|) input =
     if isNullOrWhiteSpace input then Some() else None
 
