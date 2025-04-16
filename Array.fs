@@ -6,10 +6,7 @@ open Combinators
 [<AutoOpen>]
 module ArrayMisc =
     let (|ArrayLengthIs|_|) len a =
-        if Array.length a = len then
-            Some()
-        else
-            None
+        if Array.length a = len then Some() else None
 
     /// An old version used to send an array for OneElemArray
     let (|EmptyArray|OneElemArray|ManyElemArray|) a =
@@ -31,28 +28,27 @@ module Array =
     let duplicates a =
         a
         |> Array.groupBy id
-        |> Array.choose (fun (key, set) ->
-            if set.Length > 1 then
-                Some key
-            else
-                None)
+        |> Array.choose (fun (key, set) -> if set.Length > 1 then Some key else None)
 
     [<Obsolete "Use duplicates instead">]
     let getDuplicates = duplicates
+
+    let (|IsEmpty|IsNotEmpty|) (a) =
+        if (a |> Array.length) = 0 then IsEmpty else IsNotEmpty
 
     /// Returns the first element in the array.
     let first =
         function
         | EmptyArray -> None
         | OneElemArray x -> Some x
-        | ManyElemArray (x, _) -> Some x
+        | ManyElemArray(x, _) -> Some x
 
     /// Returns the first element in the array or the default provided value.
     let firstOr value a =
         match a with
         | EmptyArray -> value
         | OneElemArray x -> x
-        | ManyElemArray (x, _) -> x
+        | ManyElemArray(x, _) -> x
 
     /// Pipeable version of Array.append.
     let append' a b = swap Array.append a b
@@ -61,7 +57,7 @@ module Array =
     let shuffle a =
         let r = Array.copy a
 
-        let swap i j (array: _ []) =
+        let swap i j (array: _[]) =
             let tmp = array.[i]
             array.[i] <- array.[j]
             array.[j] <- tmp
@@ -81,24 +77,17 @@ module Array =
     [<RequireQualifiedAccess>]
     module Parallel =
         let filter predicate array =
-            array
-            |> Array.Parallel.choose (fun x -> if predicate x then Some x else None)
+            array |> Array.Parallel.choose (fun x -> if predicate x then Some x else None)
 
         let duplicates a =
             a
             |> Array.groupBy id
-            |> Array.Parallel.choose (fun (key, set) ->
-                if set.Length > 1 then
-                    Some key
-                else
-                    None)
+            |> Array.Parallel.choose (fun (key, set) -> if set.Length > 1 then Some key else None)
 
         /// Gets the elements that are have a key in a map.
         let filterByMapKeys map a =
-            a
-            |> filter (fun v -> map |> Map.tryFind v |> Option.isSome)
+            a |> filter (fun v -> map |> Map.tryFind v |> Option.isSome)
 
         /// Gets the elements that are have a key in a map.
         let chooseByMapKeys map mapper a =
-            a
-            |> Array.Parallel.choose (fun v -> map |> Map.tryFind v |> Option.map mapper)
+            a |> Array.Parallel.choose (fun v -> map |> Map.tryFind v |> Option.map mapper)
