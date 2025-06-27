@@ -24,6 +24,7 @@ module Result =
 
     // Like `map` but with a unit-returning function
     let iter (f: _ -> unit) result = map f result |> ignore
+    let iterError (f: _ -> unit) result = mapError f result |> ignore
 
     /// Apply a Result<fn> to a Result<x> monadically
     let apply fR xR =
@@ -201,8 +202,8 @@ module ResultComputationExpression =
         member this.TryWith(body, handler) =
             try
                 this.ReturnFrom(body ())
-            with
-            | e -> handler e
+            with e ->
+                e |> handler
 
         member this.TryFinally(body, compensation) =
             try
@@ -330,24 +331,20 @@ module AsyncResult =
         x
         |> Async.Catch
         |> Async.map (function
-            | Choice1Of2 (Ok v) -> Ok v
-            | Choice1Of2 (Error err) -> Error err
+            | Choice1Of2(Ok v) -> Ok v
+            | Choice1Of2(Error err) -> Error err
             | Choice2Of2 ex -> Error(f ex))
 
 
     /// Apply an AsyncResult function to an AsyncResult value, monadically
     let applyM (fAsyncResult: AsyncResult<_, _>) (xAsyncResult: AsyncResult<_, _>) : AsyncResult<_, _> =
         fAsyncResult
-        |> Async.bind (fun fResult ->
-            xAsyncResult
-            |> Async.map (fun xResult -> Result.apply fResult xResult))
+        |> Async.bind (fun fResult -> xAsyncResult |> Async.map (fun xResult -> Result.apply fResult xResult))
 
     /// Apply an AsyncResult function to an AsyncResult value, applicatively
     let applyA (fAsyncResult: AsyncResult<_, _>) (xAsyncResult: AsyncResult<_, _>) : AsyncResult<_, _> =
         fAsyncResult
-        |> Async.bind (fun fResult ->
-            xAsyncResult
-            |> Async.map (fun xResult -> Validation.apply fResult xResult))
+        |> Async.bind (fun fResult -> xAsyncResult |> Async.map (fun xResult -> Validation.apply fResult xResult))
 
     /// Apply a monadic function to an AsyncResult value
     let bind (f: 'a -> AsyncResult<'b, 'c>) (xAsyncResult: AsyncResult<_, _>) : AsyncResult<_, _> =

@@ -126,6 +126,9 @@ let (|IsWhiteSpaceStr|_|) input =
 let regexReplace pattern (replacement: string) input =
     Regex(pattern).Replace(input, replacement)
 
+/// Checks if a string contains other. Uses regular expressions.
+let containsRx pattern input = Regex(pattern).Match(input).Success
+
 /// Gets the index of a substring. Case sensitive.
 let (|IsAtIndex|_|) (subStr: string) (str: string) =
     match str.IndexOf subStr with
@@ -225,6 +228,10 @@ let (|NotContainsIC'|_|) (substr: string) (str: string) =
         None
     else
         Some str
+
+/// Checks if a string contains other. Case sensitive.
+let (|ContainsRx|_|) (pattern: string) (str: string) =
+    if containsRx pattern str then Some() else None
 
 /// Checks if some string conforms to a Regex pattern.
 let (|Regex|_|) pattern input =

@@ -30,6 +30,9 @@ module Array =
         |> Array.groupBy id
         |> Array.choose (fun (key, set) -> if set.Length > 1 then Some key else None)
 
+    let skipAtMost count a =
+        a |> Array.skip (Math.Min(Array.length a, count))
+
     [<Obsolete "Use duplicates instead">]
     let getDuplicates = duplicates
 

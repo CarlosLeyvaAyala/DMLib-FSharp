@@ -35,3 +35,7 @@ let readAllText filename =
         File.ReadAllText filename |> Some
     with _ ->
         None
+
+let deleteIfExists fn =
+    if File.Exists fn then
+        File.Delete fn

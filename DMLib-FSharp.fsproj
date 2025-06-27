@@ -31,6 +31,7 @@
     <Compile Include="IO\IO.Path.fs" />
     <Compile Include="IO\File.fs" />
     <Compile Include="IO\Directory.fs" />
+    <Compile Include="IO\Extensions.fs" />
     <Compile Include="Json.fs" />
     <Compile Include="Misc.fs" />
     <Compile Include="Types\NonEmptyString.fsi" />

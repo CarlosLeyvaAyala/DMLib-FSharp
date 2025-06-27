@@ -14,14 +14,14 @@ let rec copy recursive source destination =
 
     // Get the files in the source directory and copy to the destination directory
     dir.GetFiles()
-    |> Array.iter (fun file ->
-        Path.Combine(destination, file.Name)
-        |> file.CopyTo
-        |> ignore)
+    |> Array.iter (fun file -> Path.Combine(destination, file.Name) |> file.CopyTo |> ignore)
 
     // If recursive and copying subdirectories, recursively call this method
     if recursive then
         dir.GetDirectories()
-        |> Array.iter (fun subDir ->
-            Path.Combine(destination, subDir.Name)
-            |> copy true subDir.FullName)
+        |> Array.iter (fun subDir -> Path.Combine(destination, subDir.Name) |> copy true subDir.FullName)
+
+/// Deletes a directory only if it already exists
+let delete recursive dir =
+    if Directory.Exists dir then
+        Directory.Delete(dir, recursive)
