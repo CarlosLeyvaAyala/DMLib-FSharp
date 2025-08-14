@@ -136,7 +136,7 @@ module Result =
     //-----------------------------------
     // Mixing options and results
 
-    /// Apply a monadic function to an Result<x option>
+    /// Apply a monadic function to an Result&lt;x option&gt;
     let bindOption f xR =
         match xR with
         | Some x -> f x |> map Some
@@ -175,6 +175,13 @@ module Result =
         List.iter split lst
 
         (oks, errs)
+
+    /// Converts a nested Result into a Result.
+    let flatten r =
+        match r with
+        | Error e -> Error e
+        | Ok(Ok x) -> Ok x
+        | Ok(Error e) -> Error e
 
 //==============================================
 // Computation Expression for Result

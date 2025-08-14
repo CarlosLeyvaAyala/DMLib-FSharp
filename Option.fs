@@ -1,4 +1,4 @@
 ﻿[<RequireQualifiedAccess>]
 module DMLib.Option
 
-let ofBool value = if value then Some() else None
+let ofBool x value = if value then Some x else None

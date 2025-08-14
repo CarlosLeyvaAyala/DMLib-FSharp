@@ -2,9 +2,10 @@
 
 open System
 open Combinators
+open System.Runtime.CompilerServices
 
 [<AutoOpen>]
-module ArrayMisc =
+module ArrayOldExtensions =
     let (|ArrayLengthIs|_|) len a =
         if Array.length a = len then Some() else None
 
@@ -20,10 +21,10 @@ module ArrayMisc =
 
 [<RequireQualifiedAccess>]
 module Array =
-    let (|ArrayLengthIs|_|) = ArrayMisc.(|ArrayLengthIs|_|)
+    let (|ArrayLengthIs|_|) = ArrayOldExtensions.(|ArrayLengthIs|_|)
 
     let (|EmptyArray|OneElemArray|ManyElemArray|) =
-        ArrayMisc.(|EmptyArray|OneElemArray|ManyElemArray|)
+        ArrayOldExtensions.(|EmptyArray|OneElemArray|ManyElemArray|)
 
     let duplicates a =
         a
@@ -77,6 +78,11 @@ module Array =
     let getRandomElement (a: 'a array) =
         a |> Array.item (Random().Next a.Length)
 
+    /// Takes the last <code>n</code> elements from the array <code>a</code>
+    let takeLast n (a: 'a array) =
+        let s = Math.Max(0, a.Length - n)
+        a |> Array.skip s
+
     [<RequireQualifiedAccess>]
     module Parallel =
         let filter predicate array =
@@ -94,3 +100,13 @@ module Array =
         /// Gets the elements that are have a key in a map.
         let chooseByMapKeys map mapper a =
             a |> Array.Parallel.choose (fun v -> map |> Map.tryFind v |> Option.map mapper)
+
+[<AutoOpen>]
+module ArrayExtensions =
+    [<Extension>]
+    type ArrayExtensions =
+        [<Extension>]
+        static member inline GetLastItem(a: 'a array) = a |> Array.last
+
+        [<Extension>]
+        static member inline TryGetLastItem(a: 'a array) = a |> Array.tryLast

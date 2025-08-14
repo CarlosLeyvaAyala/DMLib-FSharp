@@ -21,7 +21,7 @@ module Map =
             Map.empty
 
     ///<summary>Merges two maps applying <c>f key (existingValue, newValue)</c> on conflicting keys.</summary>
-    let merge f (oldMap: Map<'a, 'b>) newMap =
+    let merge f (oldMap: Map<'key, 'value>) newMap =
         newMap
         |> Map.fold
             (fun acc k nv ->
@@ -33,13 +33,7 @@ module Map =
 [<AutoOpen>]
 module MapPatterns =
     let (|ContainsKey|_|) key map =
-        if map |> Map.containsKey key then
-            Some()
-        else
-            None
+        if map |> Map.containsKey key then Some() else None
 
     let (|NotContainsKey|_|) key map =
-        if map |> Map.containsKey key then
-            None
-        else
-            Some()
+        if map |> Map.containsKey key then None else Some()
