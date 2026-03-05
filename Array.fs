@@ -83,6 +83,13 @@ module Array =
         let s = Math.Max(0, a.Length - n)
         a |> Array.skip s
 
+    let takeAtMost count a =
+        a |> Array.take (Math.Min(Array.length a, count))
+
+    let appendValue value source =
+        let i = source |> Array.length
+        source |> Array.insertAt i value
+
     [<RequireQualifiedAccess>]
     module Parallel =
         let filter predicate array =

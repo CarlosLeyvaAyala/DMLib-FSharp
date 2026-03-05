@@ -26,6 +26,12 @@ module Path =
     let trimEndingDirectorySeparator path =
         Path.TrimEndingDirectorySeparator(path: string)
 
+    let appendEndingDirectorySeparator (path: string) =
+        if Path.EndsInDirectorySeparator path then
+            path
+        else
+            path + (string Path.DirectorySeparatorChar)
+
     let combineArray a = Path.Combine(a: string array)
     let combine2 (p1: string) p2 = Path.Combine(p1, p2)
     /// Pipeable version of Path.Combine
@@ -76,6 +82,12 @@ module Path =
 
     /// Changes the name of a file while maintaining the directory. The mapping function accepts the orignal file name.
     let renameMap' = swap renameMap
+
+    /// Changes ONLY the name of a file. Keeps directory and extension.
+    let changeName oldName newName =
+        let ext = getExt oldName
+        let n = newName + ext
+        oldName |> rename n
 
     /// Forces a directory into existance.
     let forceDir (d: string) =

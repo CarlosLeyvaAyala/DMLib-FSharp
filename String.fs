@@ -55,9 +55,7 @@ let inline equalsIC (s2: string) (s1: string) =
 let replace (oldValue: string) newValue (s: string) = s.Replace(oldValue, newValue)
 
 let replaceAt (str: string) index (replacement: string) =
-    str
-        .Remove(index, Math.Min(replacement.Length, str.Length - index))
-        .Insert(index, replacement)
+    str.Remove(index, Math.Min(replacement.Length, str.Length - index)).Insert(index, replacement)
 
 let trim (s: string) = s.Trim()
 let trimStart (s: string) = s.TrimStart()
@@ -125,6 +123,10 @@ let (|IsWhiteSpaceStr|_|) input =
 
 let regexReplace pattern (replacement: string) input =
     Regex(pattern).Replace(input, replacement)
+
+/// Returns a specific group from a regex match.
+let regexGroup pattern (group: int) s =
+    Regex(pattern).Match(s).Groups[group].Value
 
 /// Checks if a string contains other. Uses regular expressions.
 let containsRx pattern input = Regex(pattern).Match(input).Success
