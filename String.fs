@@ -121,6 +121,9 @@ let (|IsNotEmptyStr'|_|) input =
 let (|IsWhiteSpaceStr|_|) input =
     if isNullOrWhiteSpace input then Some() else None
 
+let (|IsWhiteSpaceStr'|_|) input =
+    if isNullOrWhiteSpace input then Some input else None
+
 let regexReplace pattern (replacement: string) input =
     Regex(pattern).Replace(input, replacement)
 
